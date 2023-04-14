@@ -9,9 +9,11 @@ import co.edu.unbosque.model.PasajeroDTO;
 import co.edu.unbosque.model.RechazadoDAO;
 import co.edu.unbosque.model.RechazadoDTO;
 import co.edu.unbosque.view.Consola;
+import co.edu.unbosque.view.VentanaPrincipal;
 
 public class Controller {
 
+	private VentanaPrincipal vp;
 	private PasajeroDAO pdao;
 	private Consola con;
 	private AceptadoDAO adao;
@@ -23,6 +25,8 @@ public class Controller {
 		adao = new AceptadoDAO();
 		rdao = new RechazadoDAO();
 		con = new Consola();
+		vp = new VentanaPrincipal();
+		
 
 	}
 
