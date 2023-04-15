@@ -27,7 +27,7 @@ public class PasajeroDAO implements OperacionesDAO {
 	public void escribirArchivo() {
 		FileHandler.escribirSerializado("general.txt", lista);
 	}
-
+	
 	public void agregarAceptado(ArrayList<AceptadoDTO> lista_aceptados) {
 		lista.addAll(lista_aceptados);
 		escribirArchivo();
