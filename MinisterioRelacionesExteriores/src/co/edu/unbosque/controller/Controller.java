@@ -71,16 +71,35 @@ public class Controller {
 				int index = con.leerInt();
 				if (pdao.eliminar(index)) {
 					con.printErrorSalto("Eliminado correctamente.");
+					
 				} else {
 					con.printErrorSalto("Error en la eliminacion.");
 				}
+				
+				adao.getLista().clear();
+				rdao.getLista().clear();
+				for(PasajeroDTO p : pdao.getLista()) {
+					boolean rechazado = false;
+					for(String pais_vetado : paises_vetados) {
+						if(p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
+							rdao.crear((RechazadoDTO) p);
+							rechazado = true;
+							break;
+						}
+					}
+					if(rechazado == false) {
+						adao.crear((AceptadoDTO) p);
+					}
+				}
+				adao.escribirArchivo();
+				rdao.escribirArchivo();
 
 				break;
 			}
 			case 3: {
 				con.quemarLinea();
 				con.printSinSalto("Nombres: ");
-				String nombre = con.leerNextLine();
+				String nombres = con.leerNextLine();
 				con.printSinSalto("Apellidos: ");
 				String apellidos = con.leerNextLine();
 				con.printSinSalto("Fecha de Nacimiento: ");
@@ -89,14 +108,39 @@ public class Controller {
 				String pais = con.leerNextLine();
 				con.printSinSalto("Nombre del archivo de la foto del pasaporte: ");
 				String pasaporte = con.leerNextLine();
-				con.printSinSalto("Posicion a eliminar: ");
+				con.printSinSalto("Posicion a actualizar: ");
 				int index = con.leerInt();
 
-				if (pdao.actualizar(index, new PasajeroDTO(nombre, apellidos, fecha, pais, pasaporte))) {
+				if (pdao.actualizar(index, new PasajeroDTO(nombres, apellidos, fecha, pais, pasaporte))) {
 					con.printErrorSalto("Actualizado correctamente.");
 				} else {
 					con.printErrorSalto("Error en la eliminacion.");
 				}
+				
+				adao.getLista().clear();
+				rdao.getLista().clear();
+				
+				for(PasajeroDTO p : pdao.getLista()) {
+					boolean rechazado = false;
+					for (String pais_vetado : paises_vetados) {
+						if (p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
+							rdao.crear(new RechazadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(), p.getPais_origen(), p.getNombre_imagen()));
+							rechazado = true;
+							break;
+						}
+					}
+					if (rechazado == false) {
+						adao.crear(new AceptadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(), p.getPais_origen(), p.getNombre_imagen()));
+					}
+				}
+				pdao.getLista().clear();
+				pdao.agregarAceptado(adao.getLista());
+				pdao.agregarRechazado(rdao.getLista());
+				
+				adao.escribirArchivo();
+				rdao.escribirArchivo();
+				
+				
 
 				break;
 			}
