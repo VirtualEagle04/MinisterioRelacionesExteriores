@@ -66,29 +66,36 @@ public class PasajeroDAO implements OperacionesDAO {
 		}
 	}
 	
-	public String mostrarTodo() {
+	public String mostrarColombiano() {
 		if(lista.isEmpty()) {
-			return "No hay ningun pasajero";
+			return "No existe ningun Pasajero.";
 		}else {
 			StringBuilder sb = new StringBuilder();
 			SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
-			sb.append("General: \n");
-			for (PasajeroDTO p : lista) {
-				sb.append("   "+ p.getApellidos() + " " + p.getNombres()+"\n");
-				sb.append("   "+ date_format.format(p.getFecha_nacimiento()) + "\n");
-				sb.append("   "+ p.getPais_origen()+"\n");
-				sb.append("   "+p.getNombre_imagen()+"\n");
-				if(p instanceof AceptadoDTO) {
-					sb.append("   Aceptado\n");
+			sb.append("Pasajeros Colombianos: \n");
+			for(PasajeroDTO p : lista) {
+				if(p.getPais_origen().equalsIgnoreCase("Colombia")){
+					sb.append(p.toString());
 				}
-				else if (p instanceof RechazadoDTO) {
-					sb.append("   Rechazado\n");
-				}
-				sb.append("------------------------------------\n");
 			}
 			return sb.toString();
 		}
-		
+	}
+	
+	public String mostrarExtranjero() {
+		if(lista.isEmpty()) {
+			return "No existe ningun Pasajero.";
+		}else {
+			StringBuilder sb = new StringBuilder();
+			SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
+			sb.append("Pasajeros Extranjeros: \n");
+			for(PasajeroDTO p : lista) {
+				if(p.getPais_origen().equalsIgnoreCase("Colombia") == false){
+					sb.append(p.toString());
+				}
+			}
+			return sb.toString();
+		}
 	}
 
 }

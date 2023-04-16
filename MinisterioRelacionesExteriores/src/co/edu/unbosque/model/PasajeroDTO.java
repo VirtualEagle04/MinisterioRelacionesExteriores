@@ -77,11 +77,10 @@ public class PasajeroDTO implements Serializable {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
-		sb.append("Nombres: " + getNombres() + "\n");
-		sb.append("Apellidos: "+ getApellidos() +"\n");
-		sb.append("Fecha de Nacimiento: " + date_format.format(getFecha_nacimiento()) + "\n");
-		sb.append("Pais de Origen: " + getPais_origen() + "\n");
-		sb.append("Nombre de la Imagen: " + getNombre_imagen() + "\n");
+		sb.append("   Nombre completo: "+ getApellidos() + " " + getNombres()+"\n");
+		sb.append("   Fecha de Nacimiento: "+ date_format.format(getFecha_nacimiento()) + "\n");
+		sb.append("   Pais de Origen: "+ getPais_origen()+"\n");
+		sb.append("   Nombre de la Fotografia: "+getNombre_imagen()+"\n");
 		sb.append("----------\n");
 		return sb.toString();
 	}
