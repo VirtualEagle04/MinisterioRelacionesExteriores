@@ -1046,7 +1046,19 @@ public class Controller implements ActionListener{
 				break;
 			}
 			case 4: {
-				con.printSalto(pdao.mostrarTodo());
+				con.printSalto("1) Colombianos\n2) Extranjeros");
+				int xd = con.leerInt();
+					switch (xd) {
+					case 1: {
+						con.printSalto(pdao.mostrarColombiano());
+						break;
+					}
+					case 2: {
+						con.printSalto(pdao.mostrarExtranjero());
+						break;
+					}
+					default:
+					}
 				break;
 			}
 
