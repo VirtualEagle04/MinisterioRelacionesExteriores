@@ -86,7 +86,7 @@ public class PanelActualizar  extends JPanel{
 		panel_boton2 = new JPanel();
 		panel_boton2.setBounds(475,310,100,30);
 		panel_boton2.setLayout(null);
-		panel_boton2.setBackground(Color.RED);
+
 		
 		add(panel_boton2).setVisible(false);
 		
@@ -94,7 +94,6 @@ public class PanelActualizar  extends JPanel{
 		confirmar_fecha2.setBounds(0,0,100,30);
 		confirmar_fecha2.setFocusable(false);
 		confirmar_fecha2.setBorderPainted(false);
-		confirmar_fecha2.setContentAreaFilled(false);
 		
 		panel_boton2.add(confirmar_fecha2);
 		

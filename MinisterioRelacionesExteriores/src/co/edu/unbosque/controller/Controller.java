@@ -43,7 +43,7 @@ public class Controller implements ActionListener{
 
 	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp;
 	private Date fecha2;
-	private int eliminar, actualizar;
+	private int eliminar, actualizar,posicion;
 	
 	public Controller() {
 		vp = new VentanaPrincipal();
@@ -113,6 +113,14 @@ public class Controller implements ActionListener{
 		
 		vp.getPanel_actualziar().getConfirmar_actualizar().addActionListener(this);
 		vp.getPanel_actualziar().getConfirmar_actualizar().setActionCommand("Confirmar_actualizar");
+	
+//		__________________________________________________________________
+		
+		vp.getPanel_colombianos().getBusqueda_c().addActionListener(this);
+		vp.getPanel_colombianos().getBusqueda_c().setActionCommand("Busqueda_c");
+		
+		vp.getPanel_extranjeros().getBusqueda_e().addActionListener(this);
+		vp.getPanel_extranjeros().getBusqueda_e().setActionCommand("Busqueda_e");
 	}
 	
 	
@@ -479,6 +487,23 @@ public class Controller implements ActionListener{
 				}
 				
 				
+				if(pais_temp.equalsIgnoreCase("colombia")) {
+					
+					vp.getPanel_colombianos().getMostrar_colombiano().setText("");
+					
+					String datos = pdao.mostrarColombiano()+"\n";
+					vp.getPanel_colombianos().getMostrar_colombiano().append(datos);
+					
+				}
+				else {
+					
+					vp.getPanel_extranjeros().getMostrar_extranjero().setText("");
+					
+					String datos = pdao.mostrarExtranjero()+"\n";
+					vp.getPanel_extranjeros().getMostrar_extranjero().append(datos);
+					
+				}
+				
 				PasajeroDTO p = new PasajeroDTO(nombres_temp, apellidos_temp, fecha2, pais_temp, nombre_foto_temp);
 				boolean rechazado = false;
 				for (String pais_vetado : paises_vetados) {
@@ -516,7 +541,7 @@ public class Controller implements ActionListener{
 				
 				eliminar = Integer.parseInt(vp.getPanel_eliminar().getEliminar().getText());
 				
-				if(eliminar <= 0) {
+				if(eliminar < 0) {
 					
 					throw new NumeroNegativoException();
 					
@@ -542,12 +567,15 @@ public class Controller implements ActionListener{
 			}
 			
 			if(pdao.eliminar(eliminar)) {
+				
 				JOptionPane.showMessageDialog(null,"Eliminado correctamente");
 				
 			}else {
 				JOptionPane.showMessageDialog(null,"Error en la eliminacion");
 				
 			}
+			
+			
 			
 			adao.getLista().clear();
 			rdao.getLista().clear();
@@ -559,19 +587,41 @@ public class Controller implements ActionListener{
 					if(p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
 						rdao.crear((RechazadoDTO)p);
 						rechazado = true;
+						
+						
+						
 						break;
 					}
 					
 				}
 				if(rechazado == false) {
 					adao.crear((AceptadoDTO)p);
+			
 				}
+				
+				if(p.getPais_origen().equalsIgnoreCase("colombia")) {
+					
+					vp.getPanel_colombianos().getMostrar_colombiano().setText("");
+					
+					String datos = pdao.mostrarColombiano()+"\n";
+					vp.getPanel_colombianos().getMostrar_colombiano().append(datos);
+					
+				}
+				else {
+					
+					
+					vp.getPanel_extranjeros().getMostrar_extranjero().setText("");
+					String datos = pdao.mostrarExtranjero()+"\n";
+					vp.getPanel_extranjeros().getMostrar_extranjero().append(datos);
+				}
+				
 				
 			}
 			adao.escribirArchivo();
 			rdao.escribirArchivo();
-		
-
+			vp.getPanel_eliminar().getEliminar().setText("");
+			
+			
 			break;
 		}
 		case "Seleccionar_fecha2":{
@@ -826,7 +876,7 @@ public class Controller implements ActionListener{
 					
 					actualizar = Integer.parseInt(vp.getPanel_actualziar().getIndice().getText());
 					
-					if(actualizar <= 0) {
+					if(actualizar < 0) {
 						
 						throw new NumeroNegativoException();
 					}
@@ -868,6 +918,23 @@ public class Controller implements ActionListener{
 				}
 				
 				if(pdao.actualizar(actualizar, new PasajeroDTO(nombres_temp, apellidos_temp, fecha2, pais_temp, nombre_foto_temp))) {
+					
+					if(pais_temp.equalsIgnoreCase("colombia")) {
+						
+						vp.getPanel_colombianos().getMostrar_colombiano().setText("");
+						
+						String datos = pdao.mostrarColombiano()+"\n";
+						vp.getPanel_colombianos().getMostrar_colombiano().append(datos);
+						
+					}
+					else {
+						
+						
+						vp.getPanel_extranjeros().getMostrar_extranjero().setText("");
+						String datos = pdao.mostrarExtranjero()+"\n";
+						vp.getPanel_extranjeros().getMostrar_extranjero().append(datos);
+					}
+					
 					
 					JOptionPane.showMessageDialog(null,"Actualizado correctamente");
 				}
@@ -916,7 +983,72 @@ public class Controller implements ActionListener{
 			
 		break;
 		}
-		
+		case "Busqueda_c":{
+			
+			try {
+				
+				posicion = Integer.parseInt(vp.getPanel_colombianos().getIndice1().getText());
+				
+				if(posicion < 0) {
+					
+					throw new NumeroNegativoException();
+					
+				}
+				
+			} catch (NumeroNegativoException e2) {
+				
+				JOptionPane.showMessageDialog(null,"Se ingreso un numero negativo"+
+				"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
+				
+			}catch (NumberFormatException e3) {
+			
+				try {
+					throw new NumeroIncorrectoException();
+				} catch (NumeroIncorrectoException e2) {
+					
+					JOptionPane.showMessageDialog(null,"Se ingreso dato no numerico"+
+					"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
+				}
+				
+				vp.getPanel_colombianos().getIndice1().setText("");
+				
+			}
+			
+			break;
+		}
+		case "Busqueda_e":{
+			
+			try {
+				
+				posicion = Integer.parseInt(vp.getPanel_extranjeros().getIndice2().getText());
+				
+				if(posicion < 0) {
+					
+					throw new NumeroNegativoException();
+					
+				}
+				
+			} catch (NumeroNegativoException e2) {
+				
+				JOptionPane.showMessageDialog(null,"Se ingreso un numero negativo"+
+				"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
+				
+			}catch (NumberFormatException e3) {
+			
+				try {
+					throw new NumeroIncorrectoException();
+				} catch (NumeroIncorrectoException e2) {
+					
+					JOptionPane.showMessageDialog(null,"Se ingreso dato no numerico"+
+					"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
+				}
+				
+				vp.getPanel_extranjeros().getIndice2().setText("");
+				
+			}
+			
+			break;
+		}
 		
 
 		default:

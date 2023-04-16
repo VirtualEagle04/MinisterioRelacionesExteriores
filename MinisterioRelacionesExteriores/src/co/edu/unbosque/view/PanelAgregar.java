@@ -86,7 +86,6 @@ public class PanelAgregar extends JPanel{
 		panel_boton = new JPanel();
 		panel_boton.setBounds(475,310,100,30);
 		panel_boton.setLayout(null);
-		panel_boton.setBackground(Color.RED);
 		
 		add(panel_boton).setVisible(false);
 		
@@ -95,7 +94,6 @@ public class PanelAgregar extends JPanel{
 		confirmar_fecha.setBounds(0,0,100,30);
 		confirmar_fecha.setFocusable(false);
 		confirmar_fecha.setBorderPainted(false);
-		confirmar_fecha.setContentAreaFilled(false);
 		
 		panel_boton.add(confirmar_fecha);
 		
