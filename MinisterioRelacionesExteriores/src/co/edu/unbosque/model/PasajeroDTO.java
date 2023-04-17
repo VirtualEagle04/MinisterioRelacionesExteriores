@@ -81,7 +81,7 @@ public class PasajeroDTO implements Serializable {
 		sb.append("   Fecha de Nacimiento: "+ date_format.format(getFecha_nacimiento()) + "\n");
 		sb.append("   Pais de Origen: "+ getPais_origen()+"\n");
 		sb.append("   Nombre de la Fotografia: "+getNombre_imagen()+"\n");
-		sb.append("----------\n");
+		sb.append("-------------------------------------------------\n");
 		return sb.toString();
 	}
 

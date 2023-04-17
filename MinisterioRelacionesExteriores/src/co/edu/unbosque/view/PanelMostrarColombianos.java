@@ -25,7 +25,7 @@ public class PanelMostrarColombianos extends JPanel{
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
 		
-		fuente = new Font("Consolas", Font.PLAIN,20);
+		fuente = new Font("Consolas", Font.PLAIN,15);
 		
 		id_col = new JLabel("Lista de Colombianos");
 		id_col.setBounds(250, 10, 250, 20);

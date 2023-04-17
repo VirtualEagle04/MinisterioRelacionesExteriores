@@ -19,6 +19,7 @@ public class VentanaPrincipal extends JFrame {
 	private PanelMostrarColombianos panel_colombianos;
 	private PanelMostrarExtranjeros panel_extranjeros;
 	private PanelSelectorArchivos panel_archivos;
+	private PanelPasaporte panel_pasaporte;
 
 	public VentanaPrincipal() {
 		setSize(720, 450);
@@ -36,6 +37,8 @@ public class VentanaPrincipal extends JFrame {
 		panel_colombianos = new PanelMostrarColombianos();
 		panel_extranjeros = new PanelMostrarExtranjeros();
 		panel_archivos = new PanelSelectorArchivos();
+		panel_pasaporte = new PanelPasaporte();
+				
 
 		
 
@@ -79,12 +82,28 @@ public class VentanaPrincipal extends JFrame {
 		add(panel_colombianos).setVisible(false);
 		add(panel_extranjeros).setVisible(false);
 		add(panel_archivos).setVisible(false);
+		add(panel_pasaporte).setVisible(false);
 		setVisible(true);
 
 	}
 
 	
 	
+	
+	public PanelPasaporte getPanel_pasaporte() {
+		return panel_pasaporte;
+	}
+
+
+
+
+	public void setPanel_pasaporte(PanelPasaporte panel_pasaporte) {
+		this.panel_pasaporte = panel_pasaporte;
+	}
+
+
+
+
 	public PanelSelectorArchivos getPanel_archivos() {
 		return panel_archivos;
 	}

@@ -41,7 +41,7 @@ public class Controller implements ActionListener{
 	private RechazadoDAO rdao;
 	private String[] paises_vetados = { "Rusia", "Corea del Norte", "Guinea Ecuatorial", "Somalia", "Australia" };
 
-	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp;
+	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp, edad_total_temp;
 	private Date fecha2;
 	private int eliminar, actualizar,posicion;
 	
@@ -170,6 +170,8 @@ public class Controller implements ActionListener{
 			vp.getPanel_extranjeros().setVisible(false);
 			vp.getPanel_archivos().setVisible(false);
 			
+			vp.getPanel_colombianos().getMostrar_colombiano().setText(pdao.mostrarColombiano());
+			
 			break;
 		}
 		case "Mostrar_extranjero":{
@@ -180,6 +182,8 @@ public class Controller implements ActionListener{
 			vp.getPanel_colombianos().setVisible(false);
 			vp.getPanel_extranjeros().setVisible(true);
 			vp.getPanel_archivos().setVisible(false);
+			
+			vp.getPanel_extranjeros().getMostrar_extranjero().setText(pdao.mostrarExtranjero());
 			
 			break;
 		}
@@ -672,7 +676,7 @@ public class Controller implements ActionListener{
 				int meses_totales = (anios*12)+meses;
 				
 				fecha_temp = dia+"/"+mes+"/"+anio;
-				
+				edad_total_temp = anios+"años totales, "+meses_totales+"meses totales, "+dias_totales+"dias totales";
 				
 //				adjuntar, dias y meses totales junto a anios a una variable que contenga la edad total
 				vp.getPanel_actualziar().getFecha_seleccionada2().setText(fecha_temp);
@@ -985,6 +989,11 @@ public class Controller implements ActionListener{
 		}
 		case "Busqueda_c":{
 			
+			if(vp.getPanel_colombianos().getIndice1().getText().isEmpty()) {
+				
+			
+			}
+			
 			try {
 				
 				posicion = Integer.parseInt(vp.getPanel_colombianos().getIndice1().getText());
@@ -994,6 +1003,54 @@ public class Controller implements ActionListener{
 					throw new NumeroNegativoException();
 					
 				}
+				
+				
+				
+				vp.getPanel_pasaporte().getInd_nombre().setText("Nombre: "+pdao.getLista().get(posicion).getNombres());
+				vp.getPanel_pasaporte().getInd_apellido().setText("Apellido: "+pdao.getLista().get(posicion).getApellidos());
+				vp.getPanel_pasaporte().getInd_pais().setText("Pais de Origen: "+pdao.getLista().get(posicion).getPais_origen());
+				vp.getPanel_pasaporte().getInd_fecha().setText("Fecha de Nacimiento: "+pdao.getLista().get(posicion).getFecha_nacimiento());
+				
+				Date fecha_seleccionada = pdao.getLista().get(posicion).getFecha_nacimiento();
+				
+				
+				int dia = fecha_seleccionada.getDay();
+				int mes = fecha_seleccionada.getMonth()+1;
+				int anio = fecha_seleccionada.getYear();
+				
+				LocalDate fecha_nacimiento = LocalDate.of(anio, mes, dia);
+				LocalDate fecha_actual = LocalDate.now();
+				
+				Period periodo = Period.between(fecha_nacimiento, fecha_actual);
+				
+				int dias = periodo.getDays();
+				int meses = periodo.getMonths();
+				int anios = periodo.getYears();
+				
+				int dias_totales = anios*365 + meses*30 + dias;
+				
+				for (int i = fecha_nacimiento.getYear(); i <= fecha_actual.getYear(); i++) {
+					
+					if(Year.of(i).isLeap()) {
+						
+						LocalDate primer_dia_anio = LocalDate.of(i, mes, dia);
+						if(primer_dia_anio.isAfter(fecha_nacimiento) || primer_dia_anio.isEqual(fecha_nacimiento) &&
+							(primer_dia_anio.isBefore(fecha_actual) || primer_dia_anio.isEqual(fecha_actual))) {
+							
+							dias_totales++;
+							
+						}
+					}
+					
+				}
+				
+				int meses_totales = (anios*12)+meses;
+				
+				
+				
+				
+				vp.getPanel_pasaporte().getInd_edad().setText("Edad Actual: "+anios+"/Años, "+meses_totales+"/Meses, "+dias_totales+"/Dias");
+				vp.getPanel_pasaporte().setVisible(true);
 				
 			} catch (NumeroNegativoException e2) {
 				
@@ -1014,6 +1071,8 @@ public class Controller implements ActionListener{
 				
 			}
 			
+			
+			
 			break;
 		}
 		case "Busqueda_e":{
@@ -1027,6 +1086,7 @@ public class Controller implements ActionListener{
 					throw new NumeroNegativoException();
 					
 				}
+				
 				
 			} catch (NumeroNegativoException e2) {
 				

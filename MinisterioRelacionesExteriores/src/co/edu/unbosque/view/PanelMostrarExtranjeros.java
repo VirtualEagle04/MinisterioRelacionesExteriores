@@ -18,47 +18,46 @@ public class PanelMostrarExtranjeros extends JPanel {
 	private JButton busqueda_e;
 	private Font fuente;
 	private JLabel id_ex;
-	
+
 	public PanelMostrarExtranjeros() {
 
 		setBounds(0, 0, 720, 450);
 		setBackground(Color.LIGHT_GRAY);
 		setLayout(null);
-		
-		fuente = new Font("Consolas", Font.PLAIN,20);
-		
+
+		fuente = new Font("Consolas", Font.PLAIN, 15);
+
 		id_ex = new JLabel("Lista de Extranjeros");
 		id_ex.setBounds(250, 10, 250, 20);
 		id_ex.setForeground(Color.BLACK);
 		id_ex.setFont(fuente);
 		add(id_ex);
-		
+
 		mostrar_extranjero = new JTextArea();
 		mostrar_extranjero.setBounds(150, 30, 400, 300);
 		mostrar_extranjero.setBackground(new Color(232, 231, 231));
 		mostrar_extranjero.setEditable(false);
 		mostrar_extranjero.setFont(fuente);
 		mostrar_extranjero.setForeground(Color.BLACK);
-		
+
 		barra2 = new JScrollPane();
-		barra2.setBounds(150,30,400,300);
+		barra2.setBounds(150, 30, 400, 300);
 		barra2.setViewportView(mostrar_extranjero);
 		add(barra2);
-		
+
 		indice2 = new JTextField();
 		indice2.setBounds(230, 340, 130, 30);
 		indice2.setFont(fuente);
 		add(indice2);
-		
+
 		busqueda_e = new JButton("Buscar");
-		busqueda_e.setBounds(380,340,100,30);
+		busqueda_e.setBounds(380, 340, 100, 30);
 		busqueda_e.setFocusable(false);
 		busqueda_e.setBorderPainted(false);
 		add(busqueda_e);
-	
-		
+
 		setVisible(true);
-	
+
 	}
 
 	public JTextArea getMostrar_extranjero() {
@@ -101,6 +100,4 @@ public class PanelMostrarExtranjeros extends JPanel {
 		this.fuente = fuente;
 	}
 
-	
-	
 }
