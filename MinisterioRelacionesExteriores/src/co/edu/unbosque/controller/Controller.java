@@ -42,7 +42,7 @@ public class Controller implements ActionListener {
 	private RechazadoDAO rdao;
 	private String[] paises_vetados = { "Rusia", "Corea del Norte", "Guinea Ecuatorial", "Somalia", "Australia" };
 
-	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp, edad_total_temp;
+	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp;
 	private Date fecha2;
 	private int eliminar, actualizar, posicion;
 
@@ -647,8 +647,6 @@ public class Controller implements ActionListener {
 				int meses_totales = (anios * 12) + meses;
 
 				fecha_temp = dia + "/" + mes + "/" + anio;
-				edad_total_temp = anios + "años totales, " + meses_totales + "meses totales, " + dias_totales
-						+ "dias totales";
 
 //				adjuntar, dias y meses totales junto a anios a una variable que contenga la edad total
 				vp.getPanel_actualziar().getFecha_seleccionada2().setText(fecha_temp);
