@@ -4,6 +4,7 @@ import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,7 @@ import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -493,6 +495,17 @@ public class Controller implements ActionListener {
 				pdao.getLista().clear();
 				pdao.agregarAceptado(adao.getLista());
 				pdao.agregarRechazado(rdao.getLista());
+				
+				
+				File temp_foto = new File("src/UserImages/"+nombre_foto_temp);
+				String extension = nombre_foto_temp.substring(nombre_foto_temp.lastIndexOf(".") + 1);
+				BufferedImage image = null;
+				try {
+					image = ImageIO.read(vp.getPanel_agregar().getSelector().getSelectedFile());
+					ImageIO.write(image, extension, temp_foto);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 
 			} else {
 				JOptionPane.showMessageDialog(null, "Error en alguna digitacion");
@@ -895,15 +908,13 @@ public class Controller implements ActionListener {
 
 						if (p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
 
-							rdao.crear(new RechazadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(),
-									p.getPais_origen(), p.getNombre_imagen()));
+							rdao.crear(new RechazadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(),p.getPais_origen(), p.getNombre_imagen()));
 							rechazado = true;
 							break;
 						}
 					}
 					if (rechazado == false) {
-						adao.crear(new AceptadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(),
-								p.getPais_origen(), p.getNombre_imagen()));
+						adao.crear(new AceptadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(),p.getPais_origen(), p.getNombre_imagen()));
 
 					}
 				}
@@ -914,6 +925,16 @@ public class Controller implements ActionListener {
 
 				adao.escribirArchivo();
 				rdao.escribirArchivo();
+				
+				File temp_foto = new File("src/UserImages/"+nombre_foto_temp);
+				String extension = nombre_foto_temp.substring(nombre_foto_temp.lastIndexOf(".") + 1);
+				BufferedImage image = null;
+				try {
+					image = ImageIO.read(vp.getPanel_agregar().getSelector().getSelectedFile());
+					ImageIO.write(image, extension, temp_foto);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 
 			} else {
 
@@ -987,7 +1008,9 @@ public class Controller implements ActionListener {
 				int meses_totales = (anios * 12) + meses;
 
 				vp.getPanel_pasaporte().getEdad().setText(anios + "/Años o " + meses_totales + "/Meses o " + dias_totales + "/Dias");
-
+				vp.getPanel_pasaporte().getImagen().setIcon(new ImageIcon("src/UserImages/"+pdao.getLista().get(posicion).getNombre_imagen()));
+				
+				
 				vp.getPanel_pasaporte().setVisible(true);
 				vp.getPanel_agregar().setVisible(false);
 				vp.getPanel_eliminar().setVisible(false);
