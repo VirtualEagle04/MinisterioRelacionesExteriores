@@ -19,6 +19,8 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
+import javax.swing.filechooser.FileFilter;
+
 import co.edu.unbosque.model.AceptadoDAO;
 import co.edu.unbosque.model.AceptadoDTO;
 import co.edu.unbosque.model.PasajeroDAO;
@@ -40,7 +42,7 @@ public class Controller implements ActionListener {
 	private RechazadoDAO rdao;
 	private String[] paises_vetados = { "Rusia", "Corea del Norte", "Guinea Ecuatorial", "Somalia", "Australia" };
 
-	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp, edad_total_temp;
+	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp;
 	private Date fecha2;
 	private int eliminar, actualizar, posicion;
 
@@ -287,11 +289,42 @@ public class Controller implements ActionListener {
 
 			vp.getPanel_agregar().getSelector().setCurrentDirectory(directorio_f);
 			vp.getPanel_agregar().getSelector().setFileSelectionMode(JFileChooser.FILES_ONLY);
+			
+
 
 //			break;
 		}
 		case "Seleccionar": {
+			
+			
 
+			FileFilter filtro = new FileFilter() {
+				
+				@Override
+				public boolean accept(File archivo) {
+				
+					if(archivo.isDirectory()) {
+						return true;
+					}
+					
+					String extension = obtenerExtencion(archivo);
+					if(extension != null) {
+						return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png");
+					}
+				
+					return false;
+				}
+
+				@Override
+				public String getDescription() {
+					
+					return "Imagenes (*.jpg, *.jpeg, *.png)";
+				}
+				
+				
+			};
+		
+			vp.getPanel_agregar().getSelector().setFileFilter(filtro);
 			vp.getPanel_agregar().setVisible(true);
 
 			int resultado = vp.getPanel_agregar().getSelector().showOpenDialog(null);
@@ -634,8 +667,7 @@ public class Controller implements ActionListener {
 				int meses_totales = (anios * 12) + meses;
 
 				fecha_temp = dia + "/" + mes + "/" + anio;
-				edad_total_temp = anios + "años totales, " + meses_totales + "meses totales, " + dias_totales
-						+ "dias totales";
+				
 
 //				adjuntar, dias y meses totales junto a anios a una variable que contenga la edad total
 				vp.getPanel_actualziar().getFecha_seleccionada2().setText(fecha_temp);
@@ -661,8 +693,35 @@ public class Controller implements ActionListener {
 		}
 		case "Seleccionar2": {
 
-			vp.getPanel_actualziar().setVisible(true);
+			FileFilter filtro = new FileFilter() {
+				
+				@Override
+				public boolean accept(File archivo) {
+				
+					if(archivo.isDirectory()) {
+						return true;
+					}
+					
+					String extension = obtenerExtencion(archivo);
+					if(extension != null) {
+						return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png");
+					}
+				
+					return false;
+				}
 
+				@Override
+				public String getDescription() {
+					
+					return "Imagenes (*.jpg, *.jpeg, *.png)";
+				}
+				
+				
+			};
+			
+			vp.getPanel_actualziar().getSelector2().setFileFilter(filtro);
+			vp.getPanel_actualziar().setVisible(true);
+			
 			int resultado = vp.getPanel_actualziar().getSelector2().showOpenDialog(null);
 
 			if (resultado == JFileChooser.APPROVE_OPTION) {
@@ -1112,4 +1171,13 @@ public class Controller implements ActionListener {
 		}
 
 	}
+	
+	private String obtenerExtencion(File archivo) {
+		
+		String nombre_a = archivo.getName();
+		int indice = nombre_a.lastIndexOf('.');
+		return indice > 0 ? nombre_a.substring(indice + 1).toLowerCase() : null;
+		
+	}
+	
 }
