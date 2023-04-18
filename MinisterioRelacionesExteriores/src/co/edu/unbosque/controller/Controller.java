@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 
+import javax.swing.filechooser.FileFilter;
+
 import co.edu.unbosque.model.AceptadoDAO;
 import co.edu.unbosque.model.AceptadoDTO;
 import co.edu.unbosque.model.PasajeroDAO;
@@ -289,11 +291,42 @@ public class Controller implements ActionListener {
 
 			vp.getPanel_agregar().getSelector().setCurrentDirectory(directorio_f);
 			vp.getPanel_agregar().getSelector().setFileSelectionMode(JFileChooser.FILES_ONLY);
+			
+
 
 //			break;
 		}
 		case "Seleccionar": {
+			
+			
 
+			FileFilter filtro = new FileFilter() {
+				
+				@Override
+				public boolean accept(File archivo) {
+				
+					if(archivo.isDirectory()) {
+						return true;
+					}
+					
+					String extension = obtenerExtencion(archivo);
+					if(extension != null) {
+						return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png");
+					}
+				
+					return false;
+				}
+
+				@Override
+				public String getDescription() {
+					
+					return "Imagenes (*.jpg, *.jpeg, *.png)";
+				}
+				
+				
+			};
+		
+			vp.getPanel_agregar().getSelector().setFileFilter(filtro);
 			vp.getPanel_agregar().setVisible(true);
 
 			int resultado = vp.getPanel_agregar().getSelector().showOpenDialog(null);
@@ -672,8 +705,35 @@ public class Controller implements ActionListener {
 		}
 		case "Seleccionar2": {
 
-			vp.getPanel_actualziar().setVisible(true);
+			FileFilter filtro = new FileFilter() {
+				
+				@Override
+				public boolean accept(File archivo) {
+				
+					if(archivo.isDirectory()) {
+						return true;
+					}
+					
+					String extension = obtenerExtencion(archivo);
+					if(extension != null) {
+						return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png");
+					}
+				
+					return false;
+				}
 
+				@Override
+				public String getDescription() {
+					
+					return "Imagenes (*.jpg, *.jpeg, *.png)";
+				}
+				
+				
+			};
+			
+			vp.getPanel_actualziar().getSelector2().setFileFilter(filtro);
+			vp.getPanel_actualziar().setVisible(true);
+			
 			int resultado = vp.getPanel_actualziar().getSelector2().showOpenDialog(null);
 
 			if (resultado == JFileChooser.APPROVE_OPTION) {
@@ -1133,4 +1193,13 @@ public class Controller implements ActionListener {
 		}
 
 	}
+	
+	private String obtenerExtencion(File archivo) {
+		
+		String nombre_a = archivo.getName();
+		int indice = nombre_a.lastIndexOf('.');
+		return indice > 0 ? nombre_a.substring(indice + 1).toLowerCase() : null;
+		
+	}
+	
 }
