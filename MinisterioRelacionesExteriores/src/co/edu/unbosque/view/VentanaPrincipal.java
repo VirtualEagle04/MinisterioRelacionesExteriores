@@ -2,6 +2,7 @@ package co.edu.unbosque.view;
 
 import java.awt.Dimension;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -27,9 +28,11 @@ public class VentanaPrincipal extends JFrame {
 		setTitle("Ministerio de Relaciones Exteriores");
 		setLayout(null);
 		setLocationRelativeTo(null);
-		setResizable(true);
+		setResizable(false);
 		setFocusable(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		ImageIcon img = new ImageIcon("src/Assets/MinRelEx_logo.png");
+		setIconImage(img.getImage());
 
 		panel_agregar = new PanelAgregar();
 		panel_eliminar = new PanelEliminar();

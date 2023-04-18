@@ -32,163 +32,160 @@ import co.edu.unbosque.util.exceptions.NumeroNegativoException;
 import co.edu.unbosque.view.Consola;
 import co.edu.unbosque.view.VentanaPrincipal;
 
-public class Controller implements ActionListener{
+public class Controller implements ActionListener {
 
 	private VentanaPrincipal vp;
 	private PasajeroDAO pdao;
-	private Consola con;
 	private AceptadoDAO adao;
 	private RechazadoDAO rdao;
 	private String[] paises_vetados = { "Rusia", "Corea del Norte", "Guinea Ecuatorial", "Somalia", "Australia" };
 
 	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp, edad_total_temp;
 	private Date fecha2;
-	private int eliminar, actualizar,posicion;
-	
+	private int eliminar, actualizar, posicion;
+
 	public Controller() {
 		vp = new VentanaPrincipal();
 		pdao = new PasajeroDAO();
 		adao = new AceptadoDAO();
 		rdao = new RechazadoDAO();
-		con = new Consola();
-		
+
 		agregarLectores();
-		
+
 	}
 
 	public void agregarLectores() {
-	
+
 		vp.getAgregar_pasajero().addActionListener(this);
 		vp.getAgregar_pasajero().setActionCommand("Agregar");
-		
+
 		vp.getEliminar_pasajero().addActionListener(this);
 		vp.getEliminar_pasajero().setActionCommand("Eliminar");
-		
+
 		vp.getActualizar_pasajero().addActionListener(this);
 		vp.getActualizar_pasajero().setActionCommand("Actualizar");
-		
+
 		vp.getMostrar_colombiano().addActionListener(this);
 		vp.getMostrar_colombiano().setActionCommand("Mostrar_colombiano");
-		
+
 		vp.getMostrar_extranjero().addActionListener(this);
 		vp.getMostrar_extranjero().setActionCommand("Mostrar_extranjero");
-		
+
 		vp.getConsultar_pasajero().addActionListener(this);
 		vp.getConsultar_pasajero().setActionCommand("Consultar");
 //		____________________________________________________________
-		
+
 		vp.getPanel_agregar().getSel_fecha().addActionListener(this);
 		vp.getPanel_agregar().getSel_fecha().setActionCommand("Seleccionar_fecha");
-		
+
 		vp.getPanel_agregar().getConfirmar_fecha().addActionListener(this);
 		vp.getPanel_agregar().getConfirmar_fecha().setActionCommand("Confirmar_fecha");
-		
+
 		vp.getPanel_agregar().getBusqueda_foto().addActionListener(this);
 		vp.getPanel_agregar().getBusqueda_foto().setActionCommand("Seleccionar_foto");
-		
+
 		vp.getPanel_agregar().getSelector().addActionListener(this);
 		vp.getPanel_agregar().getSelector().setApproveButtonText("Seleccionar");
-		
+
 		vp.getPanel_agregar().getConfirmar_agregar().addActionListener(this);
 		vp.getPanel_agregar().getConfirmar_agregar().setActionCommand("Confirmar_agregar");
 
 //		______________________________________________________________
-		
+
 		vp.getPanel_eliminar().getConfirmar_eliminar().addActionListener(this);
 		vp.getPanel_eliminar().getConfirmar_eliminar().setActionCommand("Confirmar_eliminar");
-	
+
 //		______________________________________________________________
-		
+
 		vp.getPanel_actualziar().getSel_fecha2().addActionListener(this);
 		vp.getPanel_actualziar().getSel_fecha2().setActionCommand("Seleccionar_fecha2");
-		
+
 		vp.getPanel_actualziar().getConfirmar_fecha2().addActionListener(this);
 		vp.getPanel_actualziar().getConfirmar_fecha2().setActionCommand("Confirmar_fecha2");
-	
+
 		vp.getPanel_actualziar().getBusqueda_foto2().addActionListener(this);
 		vp.getPanel_actualziar().getBusqueda_foto2().setActionCommand("Seleccionar_foto2");
-		
+
 		vp.getPanel_actualziar().getSelector2().addActionListener(this);
 		vp.getPanel_actualziar().getSelector2().setApproveButtonText("Seleccionar2");
-		
+
 		vp.getPanel_actualziar().getConfirmar_actualizar().addActionListener(this);
 		vp.getPanel_actualziar().getConfirmar_actualizar().setActionCommand("Confirmar_actualizar");
-	
+
 //		__________________________________________________________________
-		
+
 		vp.getPanel_colombianos().getBusqueda_c().addActionListener(this);
 		vp.getPanel_colombianos().getBusqueda_c().setActionCommand("Busqueda_c");
-		
+
 		vp.getPanel_extranjeros().getBusqueda_e().addActionListener(this);
 		vp.getPanel_extranjeros().getBusqueda_e().setActionCommand("Busqueda_e");
 	}
-	
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		switch (e.getActionCommand()) {
-		case "Agregar":{
-			
+		case "Agregar": {
+
 			vp.getPanel_agregar().setVisible(true);
 			vp.getPanel_eliminar().setVisible(false);
 			vp.getPanel_actualziar().setVisible(false);
 			vp.getPanel_colombianos().setVisible(false);
 			vp.getPanel_extranjeros().setVisible(false);
 			vp.getPanel_archivos().setVisible(false);
-			
+
 			break;
 		}
-		case "Eliminar":{
-			
+		case "Eliminar": {
+
 			vp.getPanel_agregar().setVisible(false);
 			vp.getPanel_eliminar().setVisible(true);
 			vp.getPanel_actualziar().setVisible(false);
 			vp.getPanel_colombianos().setVisible(false);
 			vp.getPanel_extranjeros().setVisible(false);
 			vp.getPanel_archivos().setVisible(false);
-			
+
 			break;
 		}
-		case "Actualizar":{
-			
+		case "Actualizar": {
+
 			vp.getPanel_agregar().setVisible(false);
 			vp.getPanel_eliminar().setVisible(false);
 			vp.getPanel_actualziar().setVisible(true);
 			vp.getPanel_colombianos().setVisible(false);
 			vp.getPanel_extranjeros().setVisible(false);
 			vp.getPanel_archivos().setVisible(false);
-			
+
 			break;
 		}
-		case "Mostrar_colombiano":{
-			
+		case "Mostrar_colombiano": {
+
 			vp.getPanel_agregar().setVisible(false);
 			vp.getPanel_eliminar().setVisible(false);
 			vp.getPanel_actualziar().setVisible(false);
 			vp.getPanel_colombianos().setVisible(true);
 			vp.getPanel_extranjeros().setVisible(false);
 			vp.getPanel_archivos().setVisible(false);
-			
+
 			vp.getPanel_colombianos().getMostrar_colombiano().setText(pdao.mostrarColombiano());
-			
+
 			break;
 		}
-		case "Mostrar_extranjero":{
-			
+		case "Mostrar_extranjero": {
+
 			vp.getPanel_agregar().setVisible(false);
 			vp.getPanel_eliminar().setVisible(false);
 			vp.getPanel_actualziar().setVisible(false);
 			vp.getPanel_colombianos().setVisible(false);
 			vp.getPanel_extranjeros().setVisible(true);
 			vp.getPanel_archivos().setVisible(false);
-			
+
 			vp.getPanel_extranjeros().getMostrar_extranjero().setText(pdao.mostrarExtranjero());
-			
+
 			break;
 		}
-		case "Consultar":{
-			
+		case "Consultar": {
+
 			vp.getPanel_agregar().setVisible(false);
 			vp.getPanel_eliminar().setVisible(false);
 			vp.getPanel_actualziar().setVisible(false);
@@ -196,1078 +193,923 @@ public class Controller implements ActionListener{
 			vp.getPanel_extranjeros().setVisible(false);
 			vp.getPanel_archivos().getP1().setVisible(true);
 //			
-			
+
 			String ruta = System.getProperty("user.dir");
 			File ruta_directorio = new File(ruta);
 			vp.getPanel_archivos().getArchivos().setCurrentDirectory(ruta_directorio);
-			
+
 			FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos CSV", "csv");
 			vp.getPanel_archivos().getArchivos().setFileFilter(filtro);
-			
+
 			int seleccion = vp.getPanel_archivos().getArchivos().showOpenDialog(null);
-			
-			if(seleccion == JFileChooser.APPROVE_OPTION) {
-				
+
+			if (seleccion == JFileChooser.APPROVE_OPTION) {
+
 				File archivo = vp.getPanel_archivos().getArchivos().getSelectedFile();
 				try {
 					Desktop.getDesktop().open(archivo);
 				} catch (IOException e2) {
 					e2.printStackTrace();
 				}
-				
+
+			} else {
+
+				JOptionPane.showMessageDialog(null, "No selecciono ningun archivo");
 			}
-			else {
-				
-				JOptionPane.showMessageDialog(null,"No selecciono ningun archivo");
-			}
-		break;	
+			break;
 		}
-		case "Seleccionar_fecha":{
-			
+		case "Seleccionar_fecha": {
+
 			vp.getPanel_agregar().setVisible(true);
 			vp.getPanel_agregar().getPanel_boton().setVisible(true);
 			vp.getPanel_agregar().getPanel_calendario().setVisible(true);
 			vp.getPanel_agregar().getConfirmar_agregar().setVisible(false);
-			
-			
-			
+
 			break;
 		}
-		case "Confirmar_fecha": { 
-			
-			if(vp.getPanel_agregar().getCalendario().getCalendar() != null) {
-				
+		case "Confirmar_fecha": {
+
+			if (vp.getPanel_agregar().getCalendario().getCalendar() != null) {
+
 				Calendar fecha_seleccionada = vp.getPanel_agregar().getCalendario().getCalendar();
-				
+
 				int dia = fecha_seleccionada.get(Calendar.DAY_OF_MONTH);
-				int mes = fecha_seleccionada.get(Calendar.MONTH)+1;
+				int mes = fecha_seleccionada.get(Calendar.MONTH) + 1;
 				int anio = fecha_seleccionada.get(Calendar.YEAR);
-				
+
 				LocalDate fecha_nacimiento = LocalDate.of(anio, mes, dia);
 				LocalDate fecha_actual = LocalDate.now();
-				
+
 				Period periodo = Period.between(fecha_nacimiento, fecha_actual);
-				
+
 				int dias = periodo.getDays();
 				int meses = periodo.getMonths();
 				int anios = periodo.getYears();
-				
-				int dias_totales = anios*365 + meses*30 + dias;
-				
+
+				int dias_totales = anios * 365 + meses * 30 + dias;
+
 				for (int i = fecha_nacimiento.getYear(); i <= fecha_actual.getYear(); i++) {
-					
-					if(Year.of(i).isLeap()) {
-						
+
+					if (Year.of(i).isLeap()) {
+
 						LocalDate primer_dia_anio = LocalDate.of(i, mes, dia);
-						if(primer_dia_anio.isAfter(fecha_nacimiento) || primer_dia_anio.isEqual(fecha_nacimiento) &&
-							(primer_dia_anio.isBefore(fecha_actual) || primer_dia_anio.isEqual(fecha_actual))) {
-							
+						if (primer_dia_anio.isAfter(fecha_nacimiento) || primer_dia_anio.isEqual(fecha_nacimiento)
+								&& (primer_dia_anio.isBefore(fecha_actual) || primer_dia_anio.isEqual(fecha_actual))) {
+
 							dias_totales++;
-							
+
 						}
 					}
-					
+
 				}
-				
-				
-				
-				int meses_totales = (anios*12)+meses;
-				
-				fecha_temp = dia+"/"+mes+"/"+anio;
-				
-			
-				
+
+				int meses_totales = (anios * 12) + meses;
+
+				fecha_temp = dia + "/" + mes + "/" + anio;
+
 				vp.getPanel_agregar().getFecha_seleccionada().setText(fecha_temp);
-				
-				
+
 			}
-			
+
 			vp.getPanel_agregar().getPanel_boton().setVisible(false);
 			vp.getPanel_agregar().getPanel_calendario().setVisible(false);
 			vp.getPanel_agregar().getConfirmar_agregar().setVisible(true);
-			
-			
+
 			break;
 		}
-		
-		case "Seleccionar_foto":{
-			
+
+		case "Seleccionar_foto": {
+
 			vp.getPanel_agregar().setVisible(true);
 
-			
 			File directorio = FileSystemView.getFileSystemView().getDefaultDirectory();
 			File directorio_f = new File(directorio, "Imagenes");
-			
+
 			vp.getPanel_agregar().getSelector().setCurrentDirectory(directorio_f);
 			vp.getPanel_agregar().getSelector().setFileSelectionMode(JFileChooser.FILES_ONLY);
-			
-			
 
 //			break;
 		}
-		case "Seleccionar":{
-			
+		case "Seleccionar": {
+
 			vp.getPanel_agregar().setVisible(true);
 
-			
 			int resultado = vp.getPanel_agregar().getSelector().showOpenDialog(null);
-			
-			if(resultado == JFileChooser.APPROVE_OPTION) {
-				
+
+			if (resultado == JFileChooser.APPROVE_OPTION) {
+
 				File archivo_s = vp.getPanel_agregar().getSelector().getSelectedFile();
 				String nombre_foto = archivo_s.getName();
-				
+
 				nombre_foto_temp = nombre_foto;
-				
+
 				vp.getPanel_agregar().getFoto_nombre().setText(nombre_foto_temp);
-				
+
 				ImageIcon imagen = new ImageIcon(archivo_s.getAbsolutePath());
-			
+
 				int ancho_definido = 121;
 				int alto_definido = 161;
-				
-				Image nueva_medida = imagen.getImage().getScaledInstance(ancho_definido, alto_definido, Image.SCALE_SMOOTH);
+
+				Image nueva_medida = imagen.getImage().getScaledInstance(ancho_definido, alto_definido,
+						Image.SCALE_SMOOTH);
 				ImageIcon imagen_redimensionada = new ImageIcon(nueva_medida);
-				
-				//llamar al metodo del panel donde se adjunta la foto
-				
+
+				// llamar al metodo del panel donde se adjunta la foto
+
 			}
-			
+
 			break;
 		}
-		case "Confirmar_agregar":{
-			
+		case "Confirmar_agregar": {
+
 			int validacion = 0;
-			
-			if(vp.getPanel_agregar().getNombres().getText().isEmpty()) {
-				
+
+			if (vp.getPanel_agregar().getNombres().getText().isEmpty()) {
+
 				vp.getPanel_agregar().getNombres().setText("");
-				
-			}
-			else {
-				
+
+			} else {
+
 				try {
-					
+
 					nombres_temp = vp.getPanel_agregar().getNombres().getText();
-					if(nombres_temp.matches("(.*)[0-9](.*)")) {
-						
+					if (nombres_temp.matches("(.*)[0-9](.*)")) {
+
 						throw new NumeroInvalidoException();
 					}
-					if(nombres_temp.matches("^[a-zA-Z ]+$")==false) {
-						
+					if (nombres_temp.matches("^[a-zA-Z ]+$") == false) {
+
 						throw new CaracterInvalidoException();
 					}
-					
-					
+
 				} catch (NumeroInvalidoException e2) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un dato numerico"+
-					"\nMotivo: "+e2.getMessage()+"\nVuelva a intentarlo");
+
+					JOptionPane.showMessageDialog(null,
+							"Ha ingresado un dato numerico" + "\nMotivo: " + e2.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-				}
-				catch (CaracterInvalidoException e3) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial"+
-					"\nMotivo: "+e3.getMessage()+"\nVuelva a intentarlo");
+				} catch (CaracterInvalidoException e3) {
+
+					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial" + "\nMotivo: "
+							+ e3.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-					
+
 				}
-				
+
 				validacion++;
 			}
-			
-			if(vp.getPanel_agregar().getApellidos().getText().isEmpty()) {
-				
+
+			if (vp.getPanel_agregar().getApellidos().getText().isEmpty()) {
+
 				vp.getPanel_agregar().getApellidos().setText("");
-			}
-			else {
-				
+			} else {
+
 				try {
 					apellidos_temp = vp.getPanel_agregar().getApellidos().getText();
-					
-					if(apellidos_temp.matches("(.*)[0-9](.*)")) {
-						
+
+					if (apellidos_temp.matches("(.*)[0-9](.*)")) {
+
 						throw new NumeroInvalidoException();
 					}
-					if(apellidos_temp.matches("^[a-zA-Z ]+$")==false) {
-						
+					if (apellidos_temp.matches("^[a-zA-Z ]+$") == false) {
+
 						throw new CaracterInvalidoException();
 					}
-					
-					
+
 				} catch (NumeroInvalidoException e2) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un dato numerico"+
-					"\nMotivo: "+e2.getMessage()+"\nVuelva a intentarlo");
+
+					JOptionPane.showMessageDialog(null,
+							"Ha ingresado un dato numerico" + "\nMotivo: " + e2.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-				}
-				catch (CaracterInvalidoException e3) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial"+
-					"\nMotivo: "+e3.getMessage()+"\nVuelva a intentarlo");
+				} catch (CaracterInvalidoException e3) {
+
+					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial" + "\nMotivo: "
+							+ e3.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-					
+
 				}
-				
+
 				validacion++;
-				
+
 			}
-			
-			if(vp.getPanel_agregar().getPais().getText().isEmpty()) {
-				
+
+			if (vp.getPanel_agregar().getPais().getText().isEmpty()) {
+
 				vp.getPanel_agregar().getPais().setText("");
-			}
-			else {
-				
+			} else {
+
 				try {
-					
+
 					pais_temp = vp.getPanel_agregar().getPais().getText();
-					
-					if(pais_temp.matches("(.*)[0-9](.*)")) {
-						
+
+					if (pais_temp.matches("(.*)[0-9](.*)")) {
+
 						throw new NumeroInvalidoException();
 					}
-					if(pais_temp.matches("^[a-zA-Z ]+$")==false) {
-						
+					if (pais_temp.matches("^[a-zA-Z ]+$") == false) {
+
 						throw new CaracterInvalidoException();
 					}
-					
-					
+
 				} catch (NumeroInvalidoException e2) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un dato numerico"+
-					"\nMotivo: "+e2.getMessage()+"\nVuelva a intentarlo");
+
+					JOptionPane.showMessageDialog(null,
+							"Ha ingresado un dato numerico" + "\nMotivo: " + e2.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-				}
-				catch (CaracterInvalidoException e3) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial"+
-					"\nMotivo: "+e3.getMessage()+"\nVuelva a intentarlo");
+				} catch (CaracterInvalidoException e3) {
+
+					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial" + "\nMotivo: "
+							+ e3.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-					
+
 				}
-				
+
 				validacion++;
-				
+
 			}
-			
-			if(vp.getPanel_agregar().getFecha_seleccionada().getText().isEmpty()) {
+
+			if (vp.getPanel_agregar().getFecha_seleccionada().getText().isEmpty()) {
 				vp.getPanel_agregar().getFecha_seleccionada().setText("");
 				JOptionPane.showMessageDialog(null, "No selecciono ninguna fecha");
 				validacion--;
-			}
-			else {
-				
+			} else {
+
 				fecha_temp = vp.getPanel_agregar().getFecha_seleccionada().getText();
-				
-				
+
 				validacion++;
 			}
-			
-			if(vp.getPanel_agregar().getFoto_nombre().getText().isEmpty()) {
+
+			if (vp.getPanel_agregar().getFoto_nombre().getText().isEmpty()) {
 				vp.getPanel_agregar().getFoto_nombre().setText("");
 				JOptionPane.showMessageDialog(null, "No selecciono ninguna imagen");
 				validacion--;
-			}
-			else {
-				
+			} else {
+
 				nombre_foto_temp = vp.getPanel_agregar().getFoto_nombre().getText();
 				validacion++;
 			}
-			
-			if(validacion == 5) {
-				
+
+			if (validacion == 5) {
+
 				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-				
-				
+
 				try {
 					fecha2 = formato.parse(fecha_temp);
-					
-					
-					System.out.println(formato.format(fecha2));
-					
+
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
-				
-				
-				if(pais_temp.equalsIgnoreCase("colombia")) {
-					
+
+				if (pais_temp.equalsIgnoreCase("colombia")) {
+
 					vp.getPanel_colombianos().getMostrar_colombiano().setText("");
-					
-					String datos = pdao.mostrarColombiano()+"\n";
+
+					String datos = pdao.mostrarColombiano() + "\n";
 					vp.getPanel_colombianos().getMostrar_colombiano().append(datos);
-					
-				}
-				else {
-					
+
+				} else {
+
 					vp.getPanel_extranjeros().getMostrar_extranjero().setText("");
-					
-					String datos = pdao.mostrarExtranjero()+"\n";
+
+					String datos = pdao.mostrarExtranjero() + "\n";
 					vp.getPanel_extranjeros().getMostrar_extranjero().append(datos);
-					
+
 				}
-				
+
 				PasajeroDTO p = new PasajeroDTO(nombres_temp, apellidos_temp, fecha2, pais_temp, nombre_foto_temp);
 				boolean rechazado = false;
 				for (String pais_vetado : paises_vetados) {
-					if(pais_temp.equalsIgnoreCase(pais_vetado)) {
-						
+					if (pais_temp.equalsIgnoreCase(pais_vetado)) {
+
 						rdao.crear(new RechazadoDTO(nombres_temp, apellidos_temp, fecha2, pais_temp, nombre_foto_temp));
 						rechazado = true;
 						break;
 					}
 				}
-				
-				if(rechazado == false) {
+
+				if (rechazado == false) {
 					adao.crear(new AceptadoDTO(nombres_temp, apellidos_temp, fecha2, pais_temp, nombre_foto_temp));
 				}
-				
+
 				pdao.getLista().clear();
 				pdao.agregarAceptado(adao.getLista());
 				pdao.agregarRechazado(rdao.getLista());
-				
-			}
-			else {
-				JOptionPane.showMessageDialog(null,"Error en alguna digitacion");
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Error en alguna digitacion");
 			}
 			vp.getPanel_agregar().getNombres().setText("");
 			vp.getPanel_agregar().getApellidos().setText("");
 			vp.getPanel_agregar().getPais().setText("");
 			vp.getPanel_agregar().getFecha_seleccionada().setText("");
 			vp.getPanel_agregar().getFoto_nombre().setText("");
-			
+
 			break;
 		}
-		case "Confirmar_eliminar":{
-			
+		case "Confirmar_eliminar": {
+
 			try {
-				
+
 				eliminar = Integer.parseInt(vp.getPanel_eliminar().getEliminar().getText());
-				
-				if(eliminar < 0) {
-					
+
+				if (eliminar < 0) {
+
 					throw new NumeroNegativoException();
-					
+
 				}
-				
+
 			} catch (NumeroNegativoException e2) {
-				
-				JOptionPane.showMessageDialog(null,"Se ingreso un numero negativo"+
-				"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
-				
-			}catch (NumberFormatException e3) {
-			
+
+				JOptionPane.showMessageDialog(null,
+						"Se ingreso un numero negativo" + "\nMotivo" + e2.getMessage() + "\nVuelva a intentarlo");
+
+			} catch (NumberFormatException e3) {
+
 				try {
 					throw new NumeroIncorrectoException();
 				} catch (NumeroIncorrectoException e2) {
-					
-					JOptionPane.showMessageDialog(null,"Se ingreso dato no numerico"+
-					"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
+
+					JOptionPane.showMessageDialog(null,
+							"Se ingreso dato no numerico" + "\nMotivo" + e2.getMessage() + "\nVuelva a intentarlo");
 				}
-				
+
 				vp.getPanel_eliminar().getEliminar().setText("");
-				
+
 			}
-			
-			if(pdao.eliminar(eliminar)) {
-				
-				JOptionPane.showMessageDialog(null,"Eliminado correctamente");
-				
-			}else {
-				JOptionPane.showMessageDialog(null,"Error en la eliminacion");
-				
+
+			if (pdao.eliminar(eliminar)) {
+
+				JOptionPane.showMessageDialog(null, "Eliminado correctamente");
+
+			} else {
+				JOptionPane.showMessageDialog(null, "Error en la eliminacion");
+
 			}
-			
-			
-			
+
 			adao.getLista().clear();
 			rdao.getLista().clear();
 			for (PasajeroDTO p : pdao.getLista()) {
-				
+
 				boolean rechazado = false;
 				for (String pais_vetado : paises_vetados) {
-					
-					if(p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
-						rdao.crear((RechazadoDTO)p);
+
+					if (p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
+						rdao.crear((RechazadoDTO) p);
 						rechazado = true;
-						
-						
-						
+
 						break;
 					}
-					
+
 				}
-				if(rechazado == false) {
-					adao.crear((AceptadoDTO)p);
-			
+				if (rechazado == false) {
+					adao.crear((AceptadoDTO) p);
+
 				}
-				
-				if(p.getPais_origen().equalsIgnoreCase("colombia")) {
-					
+
+				if (p.getPais_origen().equalsIgnoreCase("colombia")) {
+
 					vp.getPanel_colombianos().getMostrar_colombiano().setText("");
-					
-					String datos = pdao.mostrarColombiano()+"\n";
+
+					String datos = pdao.mostrarColombiano() + "\n";
 					vp.getPanel_colombianos().getMostrar_colombiano().append(datos);
-					
-				}
-				else {
-					
-					
+
+				} else {
+
 					vp.getPanel_extranjeros().getMostrar_extranjero().setText("");
-					String datos = pdao.mostrarExtranjero()+"\n";
+					String datos = pdao.mostrarExtranjero() + "\n";
 					vp.getPanel_extranjeros().getMostrar_extranjero().append(datos);
 				}
-				
-				
+
 			}
 			adao.escribirArchivo();
 			rdao.escribirArchivo();
 			vp.getPanel_eliminar().getEliminar().setText("");
-			
-			
+
 			break;
 		}
-		case "Seleccionar_fecha2":{
-			
+		case "Seleccionar_fecha2": {
+
 			vp.getPanel_actualziar().setVisible(true);
 			vp.getPanel_actualziar().getPanel_boton2().setVisible(true);
 			vp.getPanel_actualziar().getPanel_calendario2().setVisible(true);
 			vp.getPanel_actualziar().getIndice().setVisible(false);
-			
+
 			break;
 		}
-		case "Confirmar_fecha2":{
-			
-			if(vp.getPanel_actualziar().getCalendario2().getCalendar() != null) {
-				
+		case "Confirmar_fecha2": {
+
+			if (vp.getPanel_actualziar().getCalendario2().getCalendar() != null) {
+
 				Calendar fecha_seleccionada = vp.getPanel_actualziar().getCalendario2().getCalendar();
-				
+
 				int dia = fecha_seleccionada.get(Calendar.DAY_OF_MONTH);
-				int mes = fecha_seleccionada.get(Calendar.MONTH)+1;
+				int mes = fecha_seleccionada.get(Calendar.MONTH) + 1;
 				int anio = fecha_seleccionada.get(Calendar.YEAR);
-				
+
 				LocalDate fecha_nacimiento = LocalDate.of(anio, mes, dia);
 				LocalDate fecha_actual = LocalDate.now();
-				
+
 				Period periodo = Period.between(fecha_nacimiento, fecha_actual);
-				
+
 				int dias = periodo.getDays();
 				int meses = periodo.getMonths();
 				int anios = periodo.getYears();
-				
-				int dias_totales = anios*365 + meses*30 + dias;
-				
+
+				int dias_totales = anios * 365 + meses * 30 + dias;
+
 				for (int i = fecha_nacimiento.getYear(); i <= fecha_actual.getYear(); i++) {
-					
-					if(Year.of(i).isLeap()) {
-						
+
+					if (Year.of(i).isLeap()) {
+
 						LocalDate primer_dia_anio = LocalDate.of(i, mes, dia);
-						if(primer_dia_anio.isAfter(fecha_nacimiento) || primer_dia_anio.isEqual(fecha_nacimiento) &&
-							(primer_dia_anio.isBefore(fecha_actual) || primer_dia_anio.isEqual(fecha_actual))) {
-							
+						if (primer_dia_anio.isAfter(fecha_nacimiento) || primer_dia_anio.isEqual(fecha_nacimiento)
+								&& (primer_dia_anio.isBefore(fecha_actual) || primer_dia_anio.isEqual(fecha_actual))) {
+
 							dias_totales++;
-							
+
 						}
 					}
-					
+
 				}
-				
-				int meses_totales = (anios*12)+meses;
-				
-				fecha_temp = dia+"/"+mes+"/"+anio;
-				edad_total_temp = anios+"años totales, "+meses_totales+"meses totales, "+dias_totales+"dias totales";
-				
+
+				int meses_totales = (anios * 12) + meses;
+
+				fecha_temp = dia + "/" + mes + "/" + anio;
+				edad_total_temp = anios + "años totales, " + meses_totales + "meses totales, " + dias_totales
+						+ "dias totales";
+
 //				adjuntar, dias y meses totales junto a anios a una variable que contenga la edad total
 				vp.getPanel_actualziar().getFecha_seleccionada2().setText(fecha_temp);
-				
+
 			}
-			
+
 			vp.getPanel_actualziar().getPanel_boton2().setVisible(false);
 			vp.getPanel_actualziar().getPanel_calendario2().setVisible(false);
 			vp.getPanel_actualziar().getIndice().setVisible(true);
-			
 
 			break;
 		}
-		case "Seleccionar_foto2":{
+		case "Seleccionar_foto2": {
 
 			vp.getPanel_actualziar().setVisible(true);
-			
+
 			File directorio = FileSystemView.getFileSystemView().getDefaultDirectory();
 			File directorio_f = new File(directorio, "Imagenes");
-			
+
 			vp.getPanel_actualziar().getSelector2().setCurrentDirectory(directorio_f);
 			vp.getPanel_actualziar().getSelector2().setFileSelectionMode(JFileChooser.FILES_ONLY);
 
 		}
-		case "Seleccionar2":{
-			
+		case "Seleccionar2": {
+
 			vp.getPanel_actualziar().setVisible(true);
 
-			
 			int resultado = vp.getPanel_actualziar().getSelector2().showOpenDialog(null);
-			
-			if(resultado == JFileChooser.APPROVE_OPTION) {
-				
+
+			if (resultado == JFileChooser.APPROVE_OPTION) {
+
 				File archivo_s = vp.getPanel_actualziar().getSelector2().getSelectedFile();
 				String nombre_foto = archivo_s.getName();
-				
+
 				nombre_foto_temp = nombre_foto;
-				
+
 				vp.getPanel_actualziar().getFoto_nombre2().setText(nombre_foto_temp);
-				
+
 				ImageIcon imagen = new ImageIcon(archivo_s.getAbsolutePath());
-			
+
 				int ancho_definido = 121;
 				int alto_definido = 161;
-				
-				Image nueva_medida = imagen.getImage().getScaledInstance(ancho_definido, alto_definido, Image.SCALE_SMOOTH);
+
+				Image nueva_medida = imagen.getImage().getScaledInstance(ancho_definido, alto_definido,
+						Image.SCALE_SMOOTH);
 				ImageIcon imagen_redimensionada = new ImageIcon(nueva_medida);
-				
-				//llamar al metodo del panel donde se adjunta la foto
-		
+
+				// llamar al metodo del panel donde se adjunta la foto
+
 			}
 			break;
 		}
-		case "Confirmar_actualizar":{
-			
+		case "Confirmar_actualizar": {
+
 			int validacion = 0;
-			
-			if(vp.getPanel_actualziar().getNombres2().getText().isEmpty()) {
-				
+
+			if (vp.getPanel_actualziar().getNombres2().getText().isEmpty()) {
+
 				vp.getPanel_actualziar().getNombres2().setText("");
-				
-			}
-			else {
-				
+
+			} else {
+
 				try {
-					
+
 					nombres_temp = vp.getPanel_actualziar().getNombres2().getText();
-					if(nombres_temp.matches("(.*)[0-9](.*)")) {
-						
+					if (nombres_temp.matches("(.*)[0-9](.*)")) {
+
 						throw new NumeroInvalidoException();
 					}
-					if(nombres_temp.matches("^[a-zA-Z ]+$")==false) {
-						
+					if (nombres_temp.matches("^[a-zA-Z ]+$") == false) {
+
 						throw new CaracterInvalidoException();
 					}
-					
-					
+
 				} catch (NumeroInvalidoException e2) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un dato numerico"+
-					"\nMotivo: "+e2.getMessage()+"\nVuelva a intentarlo");
+
+					JOptionPane.showMessageDialog(null,
+							"Ha ingresado un dato numerico" + "\nMotivo: " + e2.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-				}
-				catch (CaracterInvalidoException e3) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial"+
-					"\nMotivo: "+e3.getMessage()+"\nVuelva a intentarlo");
+				} catch (CaracterInvalidoException e3) {
+
+					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial" + "\nMotivo: "
+							+ e3.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-					
+
 				}
-				
+
 				validacion++;
 			}
-			
-			if(vp.getPanel_actualziar().getApellidos2().getText().isEmpty()) {
-				
+
+			if (vp.getPanel_actualziar().getApellidos2().getText().isEmpty()) {
+
 				vp.getPanel_actualziar().getApellidos2().setText("");
-			}
-			else {
-				
+			} else {
+
 				try {
 					apellidos_temp = vp.getPanel_actualziar().getApellidos2().getText();
-					
-					if(apellidos_temp.matches("(.*)[0-9](.*)")) {
-						
+
+					if (apellidos_temp.matches("(.*)[0-9](.*)")) {
+
 						throw new NumeroInvalidoException();
 					}
-					if(apellidos_temp.matches("^[a-zA-Z ]+$")==false) {
-						
+					if (apellidos_temp.matches("^[a-zA-Z ]+$") == false) {
+
 						throw new CaracterInvalidoException();
 					}
-					
-					
+
 				} catch (NumeroInvalidoException e2) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un dato numerico"+
-					"\nMotivo: "+e2.getMessage()+"\nVuelva a intentarlo");
+
+					JOptionPane.showMessageDialog(null,
+							"Ha ingresado un dato numerico" + "\nMotivo: " + e2.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-				}
-				catch (CaracterInvalidoException e3) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial"+
-					"\nMotivo: "+e3.getMessage()+"\nVuelva a intentarlo");
+				} catch (CaracterInvalidoException e3) {
+
+					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial" + "\nMotivo: "
+							+ e3.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-					
+
 				}
-				
+
 				validacion++;
-				
+
 			}
-			
-			if(vp.getPanel_actualziar().getPais_2().getText().isEmpty()) {
-				
+
+			if (vp.getPanel_actualziar().getPais_2().getText().isEmpty()) {
+
 				vp.getPanel_actualziar().getPais_2().setText("");
-			}
-			else {
-				
+			} else {
+
 				try {
-					
+
 					pais_temp = vp.getPanel_actualziar().getPais_2().getText();
-					
-					if(pais_temp.matches("(.*)[0-9](.*)")) {
-						
+
+					if (pais_temp.matches("(.*)[0-9](.*)")) {
+
 						throw new NumeroInvalidoException();
 					}
-					if(pais_temp.matches("^[a-zA-Z ]+$")==false) {
-						
+					if (pais_temp.matches("^[a-zA-Z ]+$") == false) {
+
 						throw new CaracterInvalidoException();
 					}
-					
-					
+
 				} catch (NumeroInvalidoException e2) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un dato numerico"+
-					"\nMotivo: "+e2.getMessage()+"\nVuelva a intentarlo");
+
+					JOptionPane.showMessageDialog(null,
+							"Ha ingresado un dato numerico" + "\nMotivo: " + e2.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-				}
-				catch (CaracterInvalidoException e3) {
-					
-					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial"+
-					"\nMotivo: "+e3.getMessage()+"\nVuelva a intentarlo");
+				} catch (CaracterInvalidoException e3) {
+
+					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial" + "\nMotivo: "
+							+ e3.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-					
+
 				}
-				
+
 				validacion++;
-				
+
 			}
-			
-			if(vp.getPanel_actualziar().getFecha_seleccionada2().getText().isEmpty()) {
-				
+
+			if (vp.getPanel_actualziar().getFecha_seleccionada2().getText().isEmpty()) {
+
 				vp.getPanel_actualziar().getFecha_seleccionada2().setText("");
 				JOptionPane.showMessageDialog(null, "No selecciono ninguna fecha");
 				validacion--;
-			}
-			else {
-				
+			} else {
+
 				fecha_temp = vp.getPanel_actualziar().getFecha_seleccionada2().getText();
-				
-				
+
 				validacion++;
 			}
-			
-			if(vp.getPanel_actualziar().getFoto_nombre2().getText().isEmpty()) {
+
+			if (vp.getPanel_actualziar().getFoto_nombre2().getText().isEmpty()) {
 				vp.getPanel_actualziar().getFoto_nombre2().setText("");
 				JOptionPane.showMessageDialog(null, "No selecciono ninguna imagen");
 				validacion--;
-			}
-			else {
-				
+			} else {
+
 				nombre_foto_temp = vp.getPanel_actualziar().getFoto_nombre2().getText();
 				validacion++;
 			}
-			
-			if(vp.getPanel_actualziar().getIndice().getText().isEmpty()) {
+
+			if (vp.getPanel_actualziar().getIndice().getText().isEmpty()) {
 				vp.getPanel_actualziar().getIndice().setText("");
-				
-			}
-			else {
+
+			} else {
 				try {
-					
+
 					actualizar = Integer.parseInt(vp.getPanel_actualziar().getIndice().getText());
-					
-					if(actualizar < 0) {
-						
+
+					if (actualizar < 0) {
+
 						throw new NumeroNegativoException();
 					}
-					
-				}  catch (NumeroNegativoException e2) {
-					
-					JOptionPane.showMessageDialog(null,"Se ingreso un numero negativo"+
-					"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
+
+				} catch (NumeroNegativoException e2) {
+
+					JOptionPane.showMessageDialog(null,
+							"Se ingreso un numero negativo" + "\nMotivo" + e2.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
-					
-				}catch (NumberFormatException e3) {
-				
+
+				} catch (NumberFormatException e3) {
+
 					try {
 						throw new NumeroIncorrectoException();
 					} catch (NumeroIncorrectoException e2) {
-						
-						JOptionPane.showMessageDialog(null,"Se ingreso dato no numerico"+
-						"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
+
+						JOptionPane.showMessageDialog(null,
+								"Se ingreso dato no numerico" + "\nMotivo" + e2.getMessage() + "\nVuelva a intentarlo");
 						validacion--;
 					}
-					
+
 				}
 				validacion++;
 			}
-			
-			if(validacion == 6) {
-				
+
+			if (validacion == 6) {
+
 				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-				
-				
+
 				try {
 					fecha2 = formato.parse(fecha_temp);
-					
-					
+
 					System.out.println(formato.format(fecha2));
-					
+
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
-				
-				if(pdao.actualizar(actualizar, new PasajeroDTO(nombres_temp, apellidos_temp, fecha2, pais_temp, nombre_foto_temp))) {
-					
-					if(pais_temp.equalsIgnoreCase("colombia")) {
-						
+
+				if (pdao.actualizar(actualizar,
+						new PasajeroDTO(nombres_temp, apellidos_temp, fecha2, pais_temp, nombre_foto_temp))) {
+
+					if (pais_temp.equalsIgnoreCase("colombia")) {
+
 						vp.getPanel_colombianos().getMostrar_colombiano().setText("");
-						
-						String datos = pdao.mostrarColombiano()+"\n";
+
+						String datos = pdao.mostrarColombiano() + "\n";
 						vp.getPanel_colombianos().getMostrar_colombiano().append(datos);
-						
-					}
-					else {
-						
-						
+
+					} else {
+
 						vp.getPanel_extranjeros().getMostrar_extranjero().setText("");
-						String datos = pdao.mostrarExtranjero()+"\n";
+						String datos = pdao.mostrarExtranjero() + "\n";
 						vp.getPanel_extranjeros().getMostrar_extranjero().append(datos);
 					}
-					
-					
-					JOptionPane.showMessageDialog(null,"Actualizado correctamente");
+
+					JOptionPane.showMessageDialog(null, "Actualizado correctamente");
+				} else {
+					JOptionPane.showMessageDialog(null, "Error en la actualizacion");
 				}
-				else {
-					JOptionPane.showMessageDialog(null,"Error en la actualizacion");
-				}
-				
+
 				adao.getLista().clear();
 				rdao.getLista().clear();
-				
+
 				for (PasajeroDTO p : pdao.getLista()) {
 					boolean rechazado = false;
 					for (String pais_vetado : paises_vetados) {
-						
-						if(p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
-							
-							rdao.crear(new RechazadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(), p.getPais_origen(), p.getNombre_imagen()));
+
+						if (p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
+
+							rdao.crear(new RechazadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(),
+									p.getPais_origen(), p.getNombre_imagen()));
 							rechazado = true;
 							break;
 						}
 					}
-					if(rechazado == false) {
-						adao.crear(new AceptadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(), p.getPais_origen(), p.getNombre_imagen()));
-						
+					if (rechazado == false) {
+						adao.crear(new AceptadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(),
+								p.getPais_origen(), p.getNombre_imagen()));
+
 					}
 				}
-				
+
 				pdao.getLista().clear();
 				pdao.agregarAceptado(adao.getLista());
 				pdao.agregarRechazado(rdao.getLista());
-				
+
 				adao.escribirArchivo();
 				rdao.escribirArchivo();
 
-			}else {
-				
-				JOptionPane.showMessageDialog(null,"Error en alguna digitacion");
+			} else {
+
+				JOptionPane.showMessageDialog(null, "Error en alguna digitacion");
 			}
-			
+
 			vp.getPanel_actualziar().getNombres2().setText("");
 			vp.getPanel_actualziar().getApellidos2().setText("");
 			vp.getPanel_actualziar().getPais_2().setText("");
 			vp.getPanel_actualziar().getFecha_seleccionada2().setText("");
 			vp.getPanel_actualziar().getFoto_nombre2().setText("");
 			vp.getPanel_actualziar().getIndice().setText("");
-			
-		break;
+
+			break;
 		}
-		case "Busqueda_c":{
-			
-			if(vp.getPanel_colombianos().getIndice1().getText().isEmpty()) {
-				
-			
+		case "Busqueda_c": {
+
+			if (vp.getPanel_colombianos().getIndice1().getText().isEmpty()) {
+
 			}
-			
+
 			try {
-				
+
 				posicion = Integer.parseInt(vp.getPanel_colombianos().getIndice1().getText());
-				
-				if(posicion < 0) {
-					
+
+				if (posicion < 0) {
+
 					throw new NumeroNegativoException();
-					
+
 				}
-				
-				
-				
-				vp.getPanel_pasaporte().getInd_nombre().setText("Nombre: "+pdao.getLista().get(posicion).getNombres());
-				vp.getPanel_pasaporte().getInd_apellido().setText("Apellido: "+pdao.getLista().get(posicion).getApellidos());
-				vp.getPanel_pasaporte().getInd_pais().setText("Pais de Origen: "+pdao.getLista().get(posicion).getPais_origen());
-				vp.getPanel_pasaporte().getInd_fecha().setText("Fecha de Nacimiento: "+pdao.getLista().get(posicion).getFecha_nacimiento());
-				
-				Date fecha_seleccionada = pdao.getLista().get(posicion).getFecha_nacimiento();
-				
-				
-				int dia = fecha_seleccionada.getDay();
-				int mes = fecha_seleccionada.getMonth()+1;
-				int anio = fecha_seleccionada.getYear();
-				
+				SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
+				vp.getPanel_pasaporte().getNombres().setText(pdao.getLista().get(posicion).getNombres());
+				vp.getPanel_pasaporte().getApellidos().setText(pdao.getLista().get(posicion).getApellidos());
+				vp.getPanel_pasaporte().getPais().setText(pdao.getLista().get(posicion).getPais_origen());
+				vp.getPanel_pasaporte().getFecha().setText(date_format.format(pdao.getLista().get(posicion).getFecha_nacimiento()));
+
+				Date fecha_temp = pdao.getLista().get(posicion).getFecha_nacimiento();
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(fecha_temp);
+
+				int dia = cal.get(Calendar.DAY_OF_MONTH);
+				int mes = cal.get(Calendar.MONTH) + 1;
+				int anio = cal.get(Calendar.YEAR);
+
 				LocalDate fecha_nacimiento = LocalDate.of(anio, mes, dia);
 				LocalDate fecha_actual = LocalDate.now();
-				
+
 				Period periodo = Period.between(fecha_nacimiento, fecha_actual);
-				
+
 				int dias = periodo.getDays();
 				int meses = periodo.getMonths();
 				int anios = periodo.getYears();
-				
-				int dias_totales = anios*365 + meses*30 + dias;
-				
+
+				int dias_totales = anios * 365 + meses * 30 + dias;
+
 				for (int i = fecha_nacimiento.getYear(); i <= fecha_actual.getYear(); i++) {
-					
-					if(Year.of(i).isLeap()) {
-						
+
+					if (Year.of(i).isLeap()) {
+
 						LocalDate primer_dia_anio = LocalDate.of(i, mes, dia);
-						if(primer_dia_anio.isAfter(fecha_nacimiento) || primer_dia_anio.isEqual(fecha_nacimiento) &&
-							(primer_dia_anio.isBefore(fecha_actual) || primer_dia_anio.isEqual(fecha_actual))) {
-							
+						if (primer_dia_anio.isAfter(fecha_nacimiento) || primer_dia_anio.isEqual(fecha_nacimiento)
+								&& (primer_dia_anio.isBefore(fecha_actual) || primer_dia_anio.isEqual(fecha_actual))) {
+
 							dias_totales++;
-							
+
 						}
 					}
-					
+
 				}
-				
-				int meses_totales = (anios*12)+meses;
-				
-				
-				
-				
-				vp.getPanel_pasaporte().getInd_edad().setText("Edad Actual: "+anios+"/Años, "+meses_totales+"/Meses, "+dias_totales+"/Dias");
+
+				int meses_totales = (anios * 12) + meses;
+
+				vp.getPanel_pasaporte().getEdad().setText(anios + "/Años o " + meses_totales + "/Meses o " + dias_totales + "/Dias");
+
 				vp.getPanel_pasaporte().setVisible(true);
-				
+				vp.getPanel_agregar().setVisible(false);
+				vp.getPanel_eliminar().setVisible(false);
+				vp.getPanel_actualziar().setVisible(false);
+				vp.getPanel_colombianos().setVisible(false);
+				vp.getPanel_extranjeros().setVisible(false);
+				vp.getPanel_archivos().setVisible(false);
+
 			} catch (NumeroNegativoException e2) {
-				
-				JOptionPane.showMessageDialog(null,"Se ingreso un numero negativo"+
-				"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
-				
-			}catch (NumberFormatException e3) {
-			
+
+				JOptionPane.showMessageDialog(null,
+						"Se ingreso un numero negativo" + "\nMotivo" + e2.getMessage() + "\nVuelva a intentarlo");
+
+			} catch (NumberFormatException e3) {
+
 				try {
 					throw new NumeroIncorrectoException();
 				} catch (NumeroIncorrectoException e2) {
-					
-					JOptionPane.showMessageDialog(null,"Se ingreso dato no numerico"+
-					"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
+
+					JOptionPane.showMessageDialog(null,
+							"Se ingreso dato no numerico" + "\nMotivo" + e2.getMessage() + "\nVuelva a intentarlo");
 				}
-				
+
 				vp.getPanel_colombianos().getIndice1().setText("");
-				
+
 			}
-			
-			
-			
+
 			break;
 		}
-		case "Busqueda_e":{
+		case "Busqueda_e": {
+
+			if (vp.getPanel_extranjeros().getIndice2().getText().isEmpty()) {
+
+			}
 			
 			try {
-				
+
 				posicion = Integer.parseInt(vp.getPanel_extranjeros().getIndice2().getText());
-				
-				if(posicion < 0) {
-					
+
+				if (posicion < 0) {
+
 					throw new NumeroNegativoException();
-					
+
 				}
-				
-				
+				SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
+				vp.getPanel_pasaporte().getNombres().setText(pdao.getLista().get(posicion).getNombres());
+				vp.getPanel_pasaporte().getApellidos().setText(pdao.getLista().get(posicion).getApellidos());
+				vp.getPanel_pasaporte().getPais().setText(pdao.getLista().get(posicion).getPais_origen());
+				vp.getPanel_pasaporte().getFecha().setText(date_format.format(pdao.getLista().get(posicion).getFecha_nacimiento()));
+
+				Date fecha_temp = pdao.getLista().get(posicion).getFecha_nacimiento();
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(fecha_temp);
+
+				int dia = cal.get(Calendar.DAY_OF_MONTH);
+				int mes = cal.get(Calendar.MONTH) + 1;
+				int anio = cal.get(Calendar.YEAR);
+
+				LocalDate fecha_nacimiento = LocalDate.of(anio, mes, dia);
+				LocalDate fecha_actual = LocalDate.now();
+
+				Period periodo = Period.between(fecha_nacimiento, fecha_actual);
+
+				int dias = periodo.getDays();
+				int meses = periodo.getMonths();
+				int anios = periodo.getYears();
+
+				int dias_totales = anios * 365 + meses * 30 + dias;
+
+				for (int i = fecha_nacimiento.getYear(); i <= fecha_actual.getYear(); i++) {
+
+					if (Year.of(i).isLeap()) {
+
+						LocalDate primer_dia_anio = LocalDate.of(i, mes, dia);
+						if (primer_dia_anio.isAfter(fecha_nacimiento) || primer_dia_anio.isEqual(fecha_nacimiento)
+								&& (primer_dia_anio.isBefore(fecha_actual) || primer_dia_anio.isEqual(fecha_actual))) {
+
+							dias_totales++;
+
+						}
+					}
+
+				}
+
+				int meses_totales = (anios * 12) + meses;
+
+				vp.getPanel_pasaporte().getEdad()
+						.setText(anios + "/Años o " + meses_totales + "/Meses o " + dias_totales + "/Dias");
+
+				vp.getPanel_pasaporte().setVisible(true);
+				vp.getPanel_agregar().setVisible(false);
+				vp.getPanel_eliminar().setVisible(false);
+				vp.getPanel_actualziar().setVisible(false);
+				vp.getPanel_colombianos().setVisible(false);
+				vp.getPanel_extranjeros().setVisible(false);
+				vp.getPanel_archivos().setVisible(false);
+
 			} catch (NumeroNegativoException e2) {
-				
-				JOptionPane.showMessageDialog(null,"Se ingreso un numero negativo"+
-				"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
-				
-			}catch (NumberFormatException e3) {
-			
+
+				JOptionPane.showMessageDialog(null,
+						"Se ingreso un numero negativo" + "\nMotivo" + e2.getMessage() + "\nVuelva a intentarlo");
+
+			} catch (NumberFormatException e3) {
+
 				try {
 					throw new NumeroIncorrectoException();
 				} catch (NumeroIncorrectoException e2) {
-					
-					JOptionPane.showMessageDialog(null,"Se ingreso dato no numerico"+
-					"\nMotivo"+e2.getMessage()+"\nVuelva a intentarlo");
+
+					JOptionPane.showMessageDialog(null,
+							"Se ingreso dato no numerico" + "\nMotivo" + e2.getMessage() + "\nVuelva a intentarlo");
 				}
-				
+
 				vp.getPanel_extranjeros().getIndice2().setText("");
-				
+
 			}
-			
+
 			break;
 		}
-		
 
 		default:
 			break;
 		}
-		
-		
-		
+
 	}
-	
-	
-	
-	
-	
-	public void run() {
-		ppal: while (true) {
-			con.printErrorSalto("Accion: ");
-			con.printSalto("1) Crear\n2) Eliminar\n3) Actualizar\n4) Mostrar\n5) Salir");
-			int op = con.leerInt();
-			switch (op) {
-			case 1: {
-				con.quemarLinea();
-				con.printSinSalto("Nombres: ");
-				String nombres = con.leerNextLine();
-				con.printSinSalto("Apellidos: ");
-				String apellidos = con.leerNextLine();
-				con.printSinSalto("Fecha de Nacimiento: ");
-				Date fecha = new Date(con.leerNextLine());
-				con.printSinSalto("Pais de Origen: ");
-				String pais = con.leerNextLine();
-				con.printSinSalto("Nombre del archivo de la foto del pasaporte: ");
-				String pasaporte = con.leerNextLine();
-
-				PasajeroDTO p = new PasajeroDTO(nombres, apellidos, fecha, pais, pasaporte);
-				boolean rechazado = false;
-				for (String pais_vetado : paises_vetados) {
-					if (pais.equalsIgnoreCase(pais_vetado)) {
-						rdao.crear(new RechazadoDTO(nombres, apellidos, fecha, pais, pasaporte));
-						rechazado = true;
-						break;
-					}
-				}
-				if (rechazado == false) {
-					adao.crear(new AceptadoDTO(nombres, apellidos, fecha, pais, pasaporte));
-				}
-				pdao.getLista().clear();
-				pdao.agregarAceptado(adao.getLista());
-				pdao.agregarRechazado(rdao.getLista());
-				break;
-			}
-			case 2: {
-				con.printSinSalto("Posicion a eliminar: ");
-				int index = con.leerInt();
-				if (pdao.eliminar(index)) {
-					con.printErrorSalto("Eliminado correctamente.");
-					
-				} else {
-					con.printErrorSalto("Error en la eliminacion.");
-				}
-				
-				adao.getLista().clear();
-				rdao.getLista().clear();
-				for(PasajeroDTO p : pdao.getLista()) {
-					boolean rechazado = false;
-					for(String pais_vetado : paises_vetados) {
-						if(p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
-							rdao.crear((RechazadoDTO) p);
-							rechazado = true;
-							break;
-						}
-					}
-					if(rechazado == false) {
-						adao.crear((AceptadoDTO) p);
-					}
-				}
-				adao.escribirArchivo();
-				rdao.escribirArchivo();
-
-				break;
-			}
-			case 3: {
-				con.quemarLinea();
-				con.printSinSalto("Nombres: ");
-				String nombres = con.leerNextLine();
-				con.printSinSalto("Apellidos: ");
-				String apellidos = con.leerNextLine();
-				con.printSinSalto("Fecha de Nacimiento: ");
-				Date fecha = new Date(con.leerNextLine());
-				con.printSinSalto("Pais de Origen: ");
-				String pais = con.leerNextLine();
-				con.printSinSalto("Nombre del archivo de la foto del pasaporte: ");
-				String pasaporte = con.leerNextLine();
-				con.printSinSalto("Posicion a actualizar: ");
-				int index = con.leerInt();
-
-				if (pdao.actualizar(index, new PasajeroDTO(nombres, apellidos, fecha, pais, pasaporte))) {
-					con.printErrorSalto("Actualizado correctamente.");
-				} else {
-					con.printErrorSalto("Error en la actualizacion.");
-				}
-				
-				adao.getLista().clear();
-				rdao.getLista().clear();
-				
-				for(PasajeroDTO p : pdao.getLista()) {
-					boolean rechazado = false;
-					for (String pais_vetado : paises_vetados) {
-						if (p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
-							rdao.crear(new RechazadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(), p.getPais_origen(), p.getNombre_imagen()));
-							rechazado = true;
-							break;
-						}
-					}
-					if (rechazado == false) {
-						adao.crear(new AceptadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(), p.getPais_origen(), p.getNombre_imagen()));
-					}
-				}
-				pdao.getLista().clear();
-				pdao.agregarAceptado(adao.getLista());
-				pdao.agregarRechazado(rdao.getLista());
-				
-				adao.escribirArchivo();
-				rdao.escribirArchivo();
-				
-				
-
-				break;
-			}
-			case 4: {
-				con.printSalto("1) Colombianos\n2) Extranjeros");
-				int xd = con.leerInt();
-					switch (xd) {
-					case 1: {
-						con.printSalto(pdao.mostrarColombiano());
-						break;
-					}
-					case 2: {
-						con.printSalto(pdao.mostrarExtranjero());
-						break;
-					}
-					default:
-					}
-				break;
-			}
-
-			case 5: {
-				break ppal;
-			}
-
-			default:
-
-			}
-
-		}
-		con.printErrorSalto("Fin del Programa");
-	}
-
-
-
-
-
 }

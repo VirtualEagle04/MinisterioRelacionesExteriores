@@ -71,18 +71,13 @@ public class PasajeroDAO implements OperacionesDAO {
 			return "No existe ningun Pasajero.";
 		} else {
 			StringBuilder sb = new StringBuilder();
-			ArrayList<PasajeroDTO> temp = new ArrayList<>();
 			SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
 			sb.append("Pasajeros Colombianos: \n");
 			for (PasajeroDTO p : lista) {
 				if (p.getPais_origen().equalsIgnoreCase("Colombia")) {
-					temp.add(p);
+					sb.append("No°" + lista.indexOf(p) + "\n");
+					sb.append(p.toString());
 				}
-			}
-			for (int i = 0; i < temp.size(); i++) {
-				sb.append("No°" + i + "\n");
-				sb.append(temp.get(i).toString());
-
 			}
 			return sb.toString();
 		}
@@ -93,20 +88,14 @@ public class PasajeroDAO implements OperacionesDAO {
 			return "No existe ningun Pasajero.";
 		} else {
 			StringBuilder sb = new StringBuilder();
-			ArrayList<PasajeroDTO> temp = new ArrayList<>();
 			SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy");
 			sb.append("Pasajeros Extranjeros: \n");
 			for (PasajeroDTO p : lista) {
 				if (p.getPais_origen().equalsIgnoreCase("Colombia") == false) {
-					temp.add(p);
+					sb.append("No°" + lista.indexOf(p) + "\n");
+					sb.append(p.toString());
 				}
 			}
-			for (int i = 0; i < temp.size(); i++) {
-				sb.append("No°" + i + "\n");
-				sb.append(temp.get(i).toString());
-
-			}
-
 			return sb.toString();
 		}
 	}
