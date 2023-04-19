@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 public class PanelPasaporte extends JPanel {
 
@@ -30,20 +32,19 @@ public class PanelPasaporte extends JPanel {
 		add(pasaporte);
 
 		titulo_es = new JLabel("Identificación Internacional");
-		titulo_es.setBounds(210, 10, 270, 20);
+		titulo_es.setBounds(210, 10, 224, 20);
 		titulo_es.setFont(new Font("Consolas", Font.BOLD, 15));
 		titulo_es.setForeground(Color.BLACK);
 		pasaporte.add(titulo_es);
 		
 		titulo_en = new JLabel("International Indentification");
-		titulo_en.setBounds(207, 30, 270, 20);
+		titulo_en.setBounds(207, 30, 232, 20);
 		titulo_en.setFont(new Font("Consolas", Font.BOLD, 15));
 		titulo_en.setForeground(Color.BLACK);
 		pasaporte.add(titulo_en);
 
 		imagen = new JLabel();
 		imagen.setBounds(20, 70, 150, 200);
-		imagen.setIcon(new ImageIcon("src/Assets/POpop.jpg"));
 		pasaporte.add(imagen);
 
 		ind_apellido = new JLabel("Apellidos / Surnames:");
@@ -113,7 +114,6 @@ public class PanelPasaporte extends JPanel {
 		setVisible(true);
 
 	}
-
 	public JLabel getApellidos() {
 		return apellidos;
 	}
