@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,6 +37,7 @@ import co.edu.unbosque.util.exceptions.CaracterInvalidoException;
 import co.edu.unbosque.util.exceptions.NumeroIncorrectoException;
 import co.edu.unbosque.util.exceptions.NumeroInvalidoException;
 import co.edu.unbosque.util.exceptions.NumeroNegativoException;
+import co.edu.unbosque.util.exceptions.PaisInexistenteException;
 import co.edu.unbosque.view.Consola;
 import co.edu.unbosque.view.VentanaPrincipal;
 
@@ -46,10 +48,12 @@ public class Controller implements ActionListener, ComponentListener {
 	private AceptadoDAO adao;
 	private RechazadoDAO rdao;
 	private String[] paises_vetados = { "Rusia", "Corea del Norte", "Guinea Ecuatorial", "Somalia", "Australia" };
+	private ArrayList<String> paises;
 
 	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp, nombre_foto_pasaporte;
 	private Date fecha2;
 	private int eliminar, actualizar, posicion;
+	
 
 	public Controller() {
 		vp = new VentanaPrincipal();
@@ -58,6 +62,15 @@ public class Controller implements ActionListener, ComponentListener {
 		rdao = new RechazadoDAO();
 
 		agregarLectores();
+		
+		paises = new ArrayList<>();
+		String contenido = FileHandler.abrirArchivoText("paises.csv");
+		String[] lineas = contenido.split("\n");
+		for(String linea : lineas) {
+			String nombre_pais = linea;
+			paises.add(nombre_pais);
+		}
+		
 
 	}
 
@@ -500,6 +513,16 @@ public class Controller implements ActionListener, ComponentListener {
 
 						throw new CaracterInvalidoException();
 					}
+					boolean existe = false;
+					for(String pais : paises) {
+						if(pais_temp.equalsIgnoreCase(pais)) {
+							existe = true;
+							break;
+						}
+					}
+					if(existe == false) {
+						throw new PaisInexistenteException();
+					}
 
 				} catch (NumeroInvalidoException e2) {
 
@@ -512,7 +535,15 @@ public class Controller implements ActionListener, ComponentListener {
 							+ e3.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
 
+				} catch (PaisInexistenteException e4) {
+
+					JOptionPane.showMessageDialog(null,"\nMotivo: "
+							+ e4.getMessage() + "\nVuelva a intentarlo");
+					validacion--;
+
 				}
+				
+				
 
 				validacion++;
 
@@ -902,6 +933,16 @@ public class Controller implements ActionListener, ComponentListener {
 
 						throw new CaracterInvalidoException();
 					}
+					boolean existe = false;
+					for(String pais : paises) {
+						if(pais_temp.equalsIgnoreCase(pais)) {
+							existe = true;
+							break;
+						}
+					}
+					if(existe == false) {
+						throw new PaisInexistenteException();
+					}
 
 				} catch (NumeroInvalidoException e2) {
 
@@ -912,6 +953,12 @@ public class Controller implements ActionListener, ComponentListener {
 
 					JOptionPane.showMessageDialog(null, "Ha ingresado un caracter especial" + "\nMotivo: "
 							+ e3.getMessage() + "\nVuelva a intentarlo");
+					validacion--;
+
+				} catch (PaisInexistenteException e4) {
+
+					JOptionPane.showMessageDialog(null,"\nMotivo: "
+							+ e4.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
 
 				}
@@ -1136,8 +1183,6 @@ public class Controller implements ActionListener, ComponentListener {
 				vp.getPanel_pasaporte().getImagen().setIcon(imageIcon);
 				
 				nombre_foto_pasaporte = pdao.getLista().get(posicion).getNombre_imagen();
-				
-				//vp.getPanel_pasaporte().getImagen().setIcon(new ImageIcon("src/UserImages/" + pdao.getLista().get(posicion).getNombre_imagen()));
 
 				vp.getPanel_pasaporte().setVisible(true);
 				vp.getPanel_agregar().setVisible(false);
@@ -1227,9 +1272,21 @@ public class Controller implements ActionListener, ComponentListener {
 
 				int meses_totales = (anios * 12) + meses;
 
-				vp.getPanel_pasaporte().getEdad()
-						.setText(anios + "/Años o " + meses_totales + "/Meses o " + dias_totales + "/Dias");
+				vp.getPanel_pasaporte().getEdad().setText(anios + "/Años o " + meses_totales + "/Meses o " + dias_totales + "/Dias");
 
+				ImageIcon imageIcon2 = null;
+				BufferedImage img2 = null;
+				try {
+					img2 = ImageIO.read(new File("src/UserImages/" + pdao.getLista().get(posicion).getNombre_imagen()));
+				}catch (IOException e2) {
+				}
+				Image dimg2 = img2.getScaledInstance(150, 200, Image.SCALE_FAST);
+				imageIcon2 = new ImageIcon(dimg2);
+				
+				vp.getPanel_pasaporte().getImagen().setIcon(imageIcon2);
+				
+				nombre_foto_pasaporte = pdao.getLista().get(posicion).getNombre_imagen();
+				
 				vp.getPanel_pasaporte().setVisible(true);
 				vp.getPanel_agregar().setVisible(false);
 				vp.getPanel_eliminar().setVisible(false);
@@ -1237,6 +1294,7 @@ public class Controller implements ActionListener, ComponentListener {
 				vp.getPanel_colombianos().setVisible(false);
 				vp.getPanel_extranjeros().setVisible(false);
 				vp.getPanel_archivos().setVisible(false);
+				vp.setResizable(true);
 
 			} catch (NumeroNegativoException e2) {
 
