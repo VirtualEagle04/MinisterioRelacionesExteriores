@@ -1,9 +1,12 @@
 package co.edu.unbosque.controller;
 
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +39,7 @@ import co.edu.unbosque.util.exceptions.NumeroNegativoException;
 import co.edu.unbosque.view.Consola;
 import co.edu.unbosque.view.VentanaPrincipal;
 
-public class Controller implements ActionListener {
+public class Controller implements ActionListener, ComponentListener {
 
 	private VentanaPrincipal vp;
 	private PasajeroDAO pdao;
@@ -44,7 +47,7 @@ public class Controller implements ActionListener {
 	private RechazadoDAO rdao;
 	private String[] paises_vetados = { "Rusia", "Corea del Norte", "Guinea Ecuatorial", "Somalia", "Australia" };
 
-	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp;
+	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp, nombre_foto_pasaporte;
 	private Date fecha2;
 	private int eliminar, actualizar, posicion;
 
@@ -58,7 +61,65 @@ public class Controller implements ActionListener {
 
 	}
 
+	@Override
+	public void componentResized(ComponentEvent e) {
+		
+		Dimension nuevas_dim = e.getComponent().getSize();
+		
+		//PanelPasaporte
+		vp.getPanel_pasaporte().setSize(nuevas_dim);
+		//JPanel pasaporte
+		vp.getPanel_pasaporte().getPasaporte().setSize(nuevas_dim.width-90, nuevas_dim.height-140);
+		//JLabel fondo_pasaporte
+		vp.getPanel_pasaporte().getFondo_pasaporte().setSize(vp.getPanel_pasaporte().getPasaporte().getSize());
+		//Redimensión setIcon de fondo_pasaporte
+		ImageIcon imageIcon = null;
+		BufferedImage img = null;
+		try {
+			img = ImageIO.read(new File("src/Assets/bg_pasaporte.jpg"));
+		}catch (IOException e2) {}
+		Image dimg = img.getScaledInstance(nuevas_dim.width-90, nuevas_dim.height-140, Image.SCALE_FAST);
+		imageIcon = new ImageIcon(dimg);
+		//Actualizacion del tamaño fondo_pasaporte setIcon
+		vp.getPanel_pasaporte().getFondo_pasaporte().setIcon(imageIcon);
+		
+		//Componentes 
+		vp.getPanel_pasaporte().getTitulo_es().setLocation((nuevas_dim.width/2)-150, 10);
+		vp.getPanel_pasaporte().getTitulo_en().setLocation((nuevas_dim.width/2)-153, 30);
+		vp.getPanel_pasaporte().getInd_apellido().setLocation((nuevas_dim.width/2)-180, 70);
+		vp.getPanel_pasaporte().getApellidos().setLocation((nuevas_dim.width/2)-180, 85);
+		vp.getPanel_pasaporte().getInd_nombre().setLocation((nuevas_dim.width/2)-180, 110);
+		vp.getPanel_pasaporte().getNombres().setLocation((nuevas_dim.width/2)-180, 125);
+		vp.getPanel_pasaporte().getInd_pais().setLocation((nuevas_dim.width/2)-180, 150);
+		vp.getPanel_pasaporte().getPais().setLocation((nuevas_dim.width/2)-180, 165);
+		vp.getPanel_pasaporte().getInd_fecha().setLocation((nuevas_dim.width/2)-180, 190);
+		vp.getPanel_pasaporte().getFecha().setLocation((nuevas_dim.width/2)-180, 205);
+		vp.getPanel_pasaporte().getInd_edad().setLocation((nuevas_dim.width/2)-180, 230);
+		vp.getPanel_pasaporte().getEdad().setLocation((nuevas_dim.width/2)-180, 245);
+		
+		//JLabel imagen
+		vp.getPanel_pasaporte().getImagen().setSize(vp.getPanel_pasaporte().getApellidos().getLocation().x-30, nuevas_dim.height-250);
+		
+		//Redimension ImageIcon de imagen
+		int nueva_alt = vp.getPanel_pasaporte().getImagen().getHeight();
+		int nuevo_anch = vp.getPanel_pasaporte().getImagen().getWidth();
+		
+		ImageIcon imageIcon2 = null;
+		BufferedImage img2 = null;
+		try {
+			img2 = ImageIO.read(new File("src/UserImages/"+nombre_foto_pasaporte));
+		}catch (IOException e2) {}
+		Image dimg2 = img2.getScaledInstance(nuevo_anch, nueva_alt, Image.SCALE_FAST);
+		imageIcon2 = new ImageIcon(dimg2);
+		//Actualizacion del tamaño fondo_pasaporte setIcon
+		vp.getPanel_pasaporte().getImagen().setIcon(imageIcon2);
+		
+		
+	}
+
 	public void agregarLectores() {
+		
+		vp.addComponentListener(this);
 
 		vp.getAgregar_pasajero().addActionListener(this);
 		vp.getAgregar_pasajero().setActionCommand("Agregar");
@@ -291,41 +352,36 @@ public class Controller implements ActionListener {
 
 			vp.getPanel_agregar().getSelector().setCurrentDirectory(directorio_f);
 			vp.getPanel_agregar().getSelector().setFileSelectionMode(JFileChooser.FILES_ONLY);
-			
-
 
 //			break;
 		}
 		case "Seleccionar": {
-			
-			
 
 			FileFilter filtro = new FileFilter() {
-				
+
 				@Override
 				public boolean accept(File archivo) {
-				
-					if(archivo.isDirectory()) {
+
+					if (archivo.isDirectory()) {
 						return true;
 					}
-					
+
 					String extension = obtenerExtencion(archivo);
-					if(extension != null) {
+					if (extension != null) {
 						return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png");
 					}
-				
+
 					return false;
 				}
 
 				@Override
 				public String getDescription() {
-					
+
 					return "Imagenes (*.jpg, *.jpeg, *.png)";
 				}
-				
-				
+
 			};
-		
+
 			vp.getPanel_agregar().getSelector().setFileFilter(filtro);
 			vp.getPanel_agregar().setVisible(true);
 
@@ -528,9 +584,8 @@ public class Controller implements ActionListener {
 				pdao.getLista().clear();
 				pdao.agregarAceptado(adao.getLista());
 				pdao.agregarRechazado(rdao.getLista());
-				
-				
-				File temp_foto = new File("src/UserImages/"+nombre_foto_temp);
+
+				File temp_foto = new File("src/UserImages/" + nombre_foto_temp);
 				String extension = nombre_foto_temp.substring(nombre_foto_temp.lastIndexOf(".") + 1);
 				BufferedImage image = null;
 				try {
@@ -706,34 +761,33 @@ public class Controller implements ActionListener {
 		case "Seleccionar2": {
 
 			FileFilter filtro = new FileFilter() {
-				
+
 				@Override
 				public boolean accept(File archivo) {
-				
-					if(archivo.isDirectory()) {
+
+					if (archivo.isDirectory()) {
 						return true;
 					}
-					
+
 					String extension = obtenerExtencion(archivo);
-					if(extension != null) {
+					if (extension != null) {
 						return extension.equals("jpg") || extension.equals("jpeg") || extension.equals("png");
 					}
-				
+
 					return false;
 				}
 
 				@Override
 				public String getDescription() {
-					
+
 					return "Imagenes (*.jpg, *.jpeg, *.png)";
 				}
-				
-				
+
 			};
-			
+
 			vp.getPanel_actualziar().getSelector2().setFileFilter(filtro);
 			vp.getPanel_actualziar().setVisible(true);
-			
+
 			int resultado = vp.getPanel_actualziar().getSelector2().showOpenDialog(null);
 
 			if (resultado == JFileChooser.APPROVE_OPTION) {
@@ -966,13 +1020,15 @@ public class Controller implements ActionListener {
 
 						if (p.getPais_origen().equalsIgnoreCase(pais_vetado)) {
 
-							rdao.crear(new RechazadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(),p.getPais_origen(), p.getNombre_imagen()));
+							rdao.crear(new RechazadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(),
+									p.getPais_origen(), p.getNombre_imagen()));
 							rechazado = true;
 							break;
 						}
 					}
 					if (rechazado == false) {
-						adao.crear(new AceptadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(),p.getPais_origen(), p.getNombre_imagen()));
+						adao.crear(new AceptadoDTO(p.getNombres(), p.getApellidos(), p.getFecha_nacimiento(),
+								p.getPais_origen(), p.getNombre_imagen()));
 
 					}
 				}
@@ -983,8 +1039,8 @@ public class Controller implements ActionListener {
 
 				adao.escribirArchivo();
 				rdao.escribirArchivo();
-				
-				File temp_foto = new File("src/UserImages/"+nombre_foto_temp);
+
+				File temp_foto = new File("src/UserImages/" + nombre_foto_temp);
 				String extension = nombre_foto_temp.substring(nombre_foto_temp.lastIndexOf(".") + 1);
 				BufferedImage image = null;
 				try {
@@ -1027,7 +1083,8 @@ public class Controller implements ActionListener {
 				vp.getPanel_pasaporte().getNombres().setText(pdao.getLista().get(posicion).getNombres());
 				vp.getPanel_pasaporte().getApellidos().setText(pdao.getLista().get(posicion).getApellidos());
 				vp.getPanel_pasaporte().getPais().setText(pdao.getLista().get(posicion).getPais_origen());
-				vp.getPanel_pasaporte().getFecha().setText(date_format.format(pdao.getLista().get(posicion).getFecha_nacimiento()));
+				vp.getPanel_pasaporte().getFecha()
+						.setText(date_format.format(pdao.getLista().get(posicion).getFecha_nacimiento()));
 
 				Date fecha_temp = pdao.getLista().get(posicion).getFecha_nacimiento();
 				Calendar cal = Calendar.getInstance();
@@ -1066,9 +1123,22 @@ public class Controller implements ActionListener {
 				int meses_totales = (anios * 12) + meses;
 
 				vp.getPanel_pasaporte().getEdad().setText(anios + "/Años o " + meses_totales + "/Meses o " + dias_totales + "/Dias");
-				vp.getPanel_pasaporte().getImagen().setIcon(new ImageIcon("src/UserImages/"+pdao.getLista().get(posicion).getNombre_imagen()));
 				
+				ImageIcon imageIcon = null;
+				BufferedImage img = null;
+				try {
+					img = ImageIO.read(new File("src/UserImages/" + pdao.getLista().get(posicion).getNombre_imagen()));
+				}catch (IOException e2) {
+				}
+				Image dimg = img.getScaledInstance(150, 200, Image.SCALE_FAST);
+				imageIcon = new ImageIcon(dimg);
 				
+				vp.getPanel_pasaporte().getImagen().setIcon(imageIcon);
+				
+				nombre_foto_pasaporte = pdao.getLista().get(posicion).getNombre_imagen();
+				
+				//vp.getPanel_pasaporte().getImagen().setIcon(new ImageIcon("src/UserImages/" + pdao.getLista().get(posicion).getNombre_imagen()));
+
 				vp.getPanel_pasaporte().setVisible(true);
 				vp.getPanel_agregar().setVisible(false);
 				vp.getPanel_eliminar().setVisible(false);
@@ -1076,6 +1146,7 @@ public class Controller implements ActionListener {
 				vp.getPanel_colombianos().setVisible(false);
 				vp.getPanel_extranjeros().setVisible(false);
 				vp.getPanel_archivos().setVisible(false);
+				vp.setResizable(true);
 
 			} catch (NumeroNegativoException e2) {
 
@@ -1103,7 +1174,7 @@ public class Controller implements ActionListener {
 			if (vp.getPanel_extranjeros().getIndice2().getText().isEmpty()) {
 
 			}
-			
+
 			try {
 
 				posicion = Integer.parseInt(vp.getPanel_extranjeros().getIndice2().getText());
@@ -1117,7 +1188,8 @@ public class Controller implements ActionListener {
 				vp.getPanel_pasaporte().getNombres().setText(pdao.getLista().get(posicion).getNombres());
 				vp.getPanel_pasaporte().getApellidos().setText(pdao.getLista().get(posicion).getApellidos());
 				vp.getPanel_pasaporte().getPais().setText(pdao.getLista().get(posicion).getPais_origen());
-				vp.getPanel_pasaporte().getFecha().setText(date_format.format(pdao.getLista().get(posicion).getFecha_nacimiento()));
+				vp.getPanel_pasaporte().getFecha()
+						.setText(date_format.format(pdao.getLista().get(posicion).getFecha_nacimiento()));
 
 				Date fecha_temp = pdao.getLista().get(posicion).getFecha_nacimiento();
 				Calendar cal = Calendar.getInstance();
@@ -1193,13 +1265,25 @@ public class Controller implements ActionListener {
 		}
 
 	}
-	
+
 	private String obtenerExtencion(File archivo) {
-		
+
 		String nombre_a = archivo.getName();
 		int indice = nombre_a.lastIndexOf('.');
 		return indice > 0 ? nombre_a.substring(indice + 1).toLowerCase() : null;
-		
+
 	}
-	
+
+	@Override
+	public void componentMoved(ComponentEvent e) {
+	}
+
+	@Override
+	public void componentShown(ComponentEvent e) {
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent e) {
+	}
+
 }
