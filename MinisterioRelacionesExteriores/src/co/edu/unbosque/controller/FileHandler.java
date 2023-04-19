@@ -10,6 +10,13 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+/**
+ * Facilita la lectura y escritura de archivos
+ * 
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ *
+ */
+
 public class FileHandler {
 
 	private static Scanner lector;
@@ -19,14 +26,19 @@ public class FileHandler {
 	private static ObjectOutputStream oos;
 
 	public FileHandler() {
-		// Rutas relativas: Dependen desde el archivo actual.
-		// Rutas absolutas: Empiezan desde el origen del disco.
 	}
 
+	/**
+	 * Permite la escritura de los datos a un archivo serializado.
+	 * @param nombre_archivo String que contiene el nombre del archivo a editar
+	 * @param obj El contenido a escribir con un formato reativo al tipo de archivo.
+	 */
+	
 	public static void escribirSerializado(String nombre_archivo, Object obj) {
 
 		try {
-			oos = new ObjectOutputStream(new FileOutputStream("src/co/edu/unbosque/model/persistance/" + nombre_archivo));
+			oos = new ObjectOutputStream(
+					new FileOutputStream("src/co/edu/unbosque/model/persistance/" + nombre_archivo));
 			oos.writeObject(obj);
 			oos.close();
 		} catch (FileNotFoundException e) {
@@ -36,6 +48,12 @@ public class FileHandler {
 		}
 
 	}
+
+	/**
+	 * Permite la lectura del archivo serializado ingresado
+	 * @param nombre_archivo String que contiene el nombre del archivo a editar
+	 * @return Retorna el contenido del archivo .csv en forma de un String
+	 */
 	
 	public static Object leerSerializado(String nombre_archivo) {
 		try {
@@ -49,10 +67,17 @@ public class FileHandler {
 			System.err.println("Error de Lectura: Revise Permisos. (Serializado/Salida).");
 		} catch (ClassNotFoundException e) {
 			System.err.println("Error de Lectura: No se ha encontrado el archivo. (Serializado/Salida).");
-		} 
-		
+		}
+
 		return null;
 	}
+
+	/**
+	 * Permite la lectura del archivo ingresado.
+	 * 
+	 * @param nombre_archivo String que contiene el nombre del archivo a editar
+	 * @return Retorna el contenido del archivo .csv en forma de un String
+	 */
 
 	public static String abrirArchivoText(String nombre_archivo) {
 
@@ -72,6 +97,15 @@ public class FileHandler {
 
 		return contenido.toString();
 	}
+
+	/**
+	 * Permite la escritura del archivo ingresado, para almacenar la informacion
+	 * ingresada durante la ejecucion del programa.
+	 * 
+	 * @param nombre_archivo String que contiene el nombre del archivo a editar
+	 * @param contenido      El contenido a escribir con un formato reativo al tipo
+	 *                       de archivo.
+	 */
 
 	public static void escribirArchivo(String nombre_archivo, String contenido) {
 		archivo = new File("src/co/edu/unbosque/model/persistance/" + nombre_archivo);

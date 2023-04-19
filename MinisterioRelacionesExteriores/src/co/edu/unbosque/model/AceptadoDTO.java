@@ -2,6 +2,12 @@ package co.edu.unbosque.model;
 
 import java.util.Date;
 
+/**
+ * Clase que representa los pasajeros Admitidos, heredando atributos de todos los PasajerosDTO.
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ *
+ */
+
 public class AceptadoDTO extends PasajeroDTO{
 
 	public AceptadoDTO() {

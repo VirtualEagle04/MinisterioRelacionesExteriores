@@ -5,6 +5,16 @@ import java.util.ArrayList;
 
 import co.edu.unbosque.controller.FileHandler;
 
+/**
+ * Al implenetar la interfaz OperacionesDAO, obliga a darle funcionalidad a los
+ * metodos por medio de la palabra clase 'Override'
+ * 
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param lista ArrayList de tipo PasajeroDTO que contiene la informacion de
+ *              todos los pasajeros
+ *
+ */
+
 public class PasajeroDAO implements OperacionesDAO {
 
 	private ArrayList<PasajeroDTO> lista;
@@ -24,15 +34,26 @@ public class PasajeroDAO implements OperacionesDAO {
 		this.lista = lista;
 	}
 
+	/**
+	 * Sobreescribe el archivo serializado de todos los pasajeros con la informacion registrada en la lista.
+	 */
 	public void escribirArchivo() {
 		FileHandler.escribirSerializado("general.txt", lista);
 	}
+	/**
+	 * Metodo para agregar la lista de AceptadosDTO a la lista general
+	 * @param lista_aceptados Lista de AceptadosDTO
+	 */
 
 	public void agregarAceptado(ArrayList<AceptadoDTO> lista_aceptados) {
 		lista.addAll(lista_aceptados);
 		escribirArchivo();
 	}
-
+	/**
+	 * Metodo para agregar la lista de RechazadosDTO a la lista general
+	 * @param lista_aceptados Lista de RechazadosDTO
+	 */
+	
 	public void agregarRechazado(ArrayList<RechazadoDTO> lista_rechazados) {
 		lista.addAll(lista_rechazados);
 		escribirArchivo();
@@ -66,6 +87,10 @@ public class PasajeroDAO implements OperacionesDAO {
 		}
 	}
 
+	/**
+	 * Metodo que filtra pasajeros por nacionalidad colombiana.
+	 * @return Retorna un String con toda la informacion de pasajeros colombianos.
+	 */
 	public String mostrarColombiano() {
 		if (lista.isEmpty()) {
 			return "No existe ningun Pasajero.";
@@ -83,6 +108,11 @@ public class PasajeroDAO implements OperacionesDAO {
 		}
 	}
 
+	/**
+	 * Metodo que filtra pasajeros extranjeros.
+	 * @return Retorna un String con toda la informacion de pasajeros extranjeros.
+	 */
+	
 	public String mostrarExtranjero() {
 		if (lista.isEmpty()) {
 			return "No existe ningun Pasajero.";

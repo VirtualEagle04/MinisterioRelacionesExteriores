@@ -5,6 +5,12 @@ import java.awt.Color;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
+/**
+ * Panel que permite a la seleccion de archivos mediante un JFileChooser
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param archivos Selector de archivos
+ * @param p1 Panel que contiene el selector de archivos
+ */
 public class PanelSelectorArchivos extends JPanel{
 
 	private JFileChooser archivos;

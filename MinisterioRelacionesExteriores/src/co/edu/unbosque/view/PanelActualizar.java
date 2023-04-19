@@ -11,7 +11,32 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JCalendar;
-
+/**
+ * Panel que contiene los indicadores de registro de los pasajeros.
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param id_nombres2 Indicador de los nombres del pasajero
+ * @param id_apellidos2 Indicador de los apellidos del pasajero
+ * @param id_fecha2 Indicador de la fecha de nacimiento del pasajero
+ * @param id_pais2 Indicador del pais de origen del pasajero
+ * @param id_foto2 Indicador del nombre de la foto del pasajero
+ * @param id_indice Indicador de la posicion a actualizar
+ * @param nombres2 Campo de entrada para los nombres del pasajero
+ * @param apellidos2 Campo de entrada para los apellidos del pasajero
+ * @param pais_2 Campo de entrada para el pais del pasajero
+ * @param fecha_seleccionada2 Campo para la escritura de la fecha seleccionada del calendario
+ * @param foto_nombre2 Campo para la escritura del nombre de la foto seleccionada en el FileChooser
+ * @param indice Campo para la entrada de la posicion a actualizar
+ * @param sel_fecha2 Boton para desplegar el calendario
+ * @param confirmar_fecha2 Boton para confirmar la fecha seleccionada en el calendario
+ * @param busqueda_foto2 Boton para desplegar el JFileChooser de seleccion de fotos
+ * @param confirmar_actualizar Boton para confirmar la actualizacion de un pasajero
+ * @param panel_calendario2 Panel que contiene el JCalendar
+ * @param panel_boton2 Panel que contiene el boton de confirmar fecha
+ * @param panel_selector Panel que contiene el JFileChooser
+ * @param fuente2 Objeto que almacena la fuente
+ * @param calendario2 JCalendar para la seleccion explicita de la fecha
+ * @param selector2 JFileChooser para la seleccion de la imagen
+ */
 public class PanelActualizar  extends JPanel{
 
 	private JLabel id_nombre2, id_apellido2, id_fecha2, id_pais2, id_foto2, id_indice;

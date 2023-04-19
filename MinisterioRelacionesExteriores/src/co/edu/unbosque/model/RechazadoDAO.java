@@ -6,6 +6,16 @@ import java.util.Date;
 
 import co.edu.unbosque.controller.FileHandler;
 
+/**
+ * Al implenetar la interfaz OperacionesDAO, obliga a darle funcionalidad a los
+ * metodos por medio de la palabra clase 'Override'
+ * 
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param lista ArrayList de tipo RechazadoDTO que contiene la informacion de
+ *              todos los pasajeros rechazados.
+ *
+ */
+
 public class RechazadoDAO implements OperacionesDAO {
 
 	private ArrayList<RechazadoDTO> lista;
@@ -26,6 +36,13 @@ public class RechazadoDAO implements OperacionesDAO {
 		this.lista = lista;
 	}
 
+	/**
+	 * Permite ingresar todos los pasajeros rechazados a la lista general por medio de la
+	 * lectura del archivo
+	 * 
+	 * @return Retorna la lista con todos los pasajeros rechazados
+	 */
+	
 	public ArrayList<RechazadoDTO> cargarArchivo() {
 		ArrayList<RechazadoDTO> desde_archivo = new ArrayList<RechazadoDTO>();
 		String contenido = FileHandler.abrirArchivoText("rechazados.csv");
@@ -42,6 +59,10 @@ public class RechazadoDAO implements OperacionesDAO {
 		return desde_archivo;
 	}
 
+	/**
+	 * Sobreescribe el archivo de general por toda la informacion de cada pasajero rechazado de la lista general
+	 */
+	
 	public void escribirArchivo() {
 		StringBuilder sb = new StringBuilder();
 		int pos = lista.size();
@@ -89,19 +110,4 @@ public class RechazadoDAO implements OperacionesDAO {
 			return false;
 		}
 	}
-
-	public String mostrarTodo() {
-		if (lista.isEmpty()) {
-			return "No existen Rechazados";
-		} else {
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < lista.size(); i++) {
-				sb.append("No°" + i + "\n");
-				sb.append(lista.get(i).toString());
-				sb.append("\n");
-			}
-			return sb.toString();
-		}
-	}
-
 }

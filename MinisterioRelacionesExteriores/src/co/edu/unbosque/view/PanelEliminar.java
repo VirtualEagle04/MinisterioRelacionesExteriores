@@ -7,7 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
+/**
+ * Panel para el registro de la posicion a eliminar
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param id_eliminar Indicador de la posicion a eliminar
+ * @param eliminar Campo para ingresar la posicion a eliminar
+ * @param confirmar_eliminar Boton para confirmar la eliminacion de la posicion indicada
+ * @parm fuente Objeto que almancena la fuente
+ */
 public class PanelEliminar extends JPanel {
 
 	private JLabel id_eliminar;

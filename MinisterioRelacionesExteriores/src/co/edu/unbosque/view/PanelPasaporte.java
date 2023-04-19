@@ -8,7 +8,25 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-
+/**
+ * Clase que permite distribuir la informacio registrada en el pasaporte.
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param pasaporte Panel que complementa el pasaporte
+ * @param titulo_es Titulo en español
+ * @param titulo_en Titulo en ingles
+ * @param fondo_pasaporte JLabel que contiene la imagen del fondo del pasaporte
+ * @param ind_nombre Indicador de los nombres
+ * @param ind_apellido Indicador de los apellidos
+ * @param ind_fecha Indicador de la fecha de nacimiento
+ * @param ind_edad Indicador de la edad 
+ * @param ind_pais Indicador del pais
+ * @param apellidos Apellidos del pasajero seleccionado
+ * @param nombres Nombres del pasajero seleccionado
+ * @param fecha Fecha de nacimiento del pasajero seleccionado
+ * @param edad Edad del pasajero seleccionado
+ * @param pais Pais de origen del pasajero seleccionado
+ * @param fuente Objeto que almancena la fuente
+ */
 public class PanelPasaporte extends JPanel {
 
 	private JPanel pasaporte;

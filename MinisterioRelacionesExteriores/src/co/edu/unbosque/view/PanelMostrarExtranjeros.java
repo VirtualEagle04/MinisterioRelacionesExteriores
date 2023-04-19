@@ -9,7 +9,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
+/**
+ * Panel que permite mostrar en un listado informacion de los pasajeros extranjeros
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param mostrar_extranjero Lista que contiene la informacion de los pasajeros extranjeros
+ * @param barra2 JScrollPane que contiene la lista para permitir el desplazamiento en caso tal de ser muy extensa la informacion
+ * @param indice2 Filtro para seleccionar la posicion del pasajero
+ * @param busqueda_e Boton para confirmar la busqueda del pasajero
+ * @param fuente Objeto que almancena la fuente
+ * @param id_ex Indicador del titulo del panel de extranjeros
+ */
 public class PanelMostrarExtranjeros extends JPanel {
 
 	private JTextArea mostrar_extranjero;

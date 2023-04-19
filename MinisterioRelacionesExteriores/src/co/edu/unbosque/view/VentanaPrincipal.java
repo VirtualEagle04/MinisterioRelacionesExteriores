@@ -7,7 +7,30 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-
+/**
+ * 
+ * Clase que hereda de JFrame y que contiene todos los paneles donde se mostrara los elementos visuales de la Pokedex.
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param menubar Barra en el menu que contiene las opciones de seleccion.
+ * @param agregar Opcion agregar de seleccion
+ * @param eliminar Opcion eliminar de seleccion
+ * @param actualizar Opcion actualizar de seleccion
+ * @param mostrar Opcion mostrar de seleccion
+ * @param consultar Opcion consultar de seleccion
+ * @param agregar_pasajero Item de seleccion 1
+ * @param eliminar_pasajero Item de seleccion 2
+ * @param actualziar_pasajero Item de seleccion 3
+ * @param consultar_pasajero Item de seleccion 4
+ * @param mostrar_colombiano Item de seleccion 5
+ * @param mostrar_extranjeros Item de seleccion 6
+ * @param panel_agregar Objeto de la clase PanelAgregar
+ * @param panel_eliminar Objeto de la clase PanelEliminar
+ * @param panel_actualizar Objeto de la clase PanelActualizar
+ * @param panel_colombianos Objeto de la clase PanelMostrarColombianos
+ * @param panel_extranjeros Objeto de la clase PanelMostrarExtranjeros
+ * @param panel_archivos Objecto de la clase PanelSelectorArchivos
+ * @param panel_pasaporte Objeto de la clase PanelPasaporte
+ */
 public class VentanaPrincipal extends JFrame {
 
 	private JMenuBar menubar;

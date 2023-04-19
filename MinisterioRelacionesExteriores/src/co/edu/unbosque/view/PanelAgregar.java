@@ -11,7 +11,30 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JCalendar;
-
+/**
+ * Panel que contiene los indicadores de registro de los pasajeros.
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param id_nombres Indicador de los nombres del pasajero
+ * @param id_apellidos Indicador de los apellidos del pasajero
+ * @param id_fecha Indicador de la fecha de nacimiento del pasajero
+ * @param id_pais Indicador del pais de origen del pasajero
+ * @param id_foto Indicador del nombre de la foto del pasajero
+ * @param nombres Campo de entrada para los nombres del pasajero
+ * @param apellidos Campo de entrada para los apellidos del pasajero
+ * @param pais Campo de entrada para el pais del pasajero
+ * @param fecha_seleccionada Campo para la escritura de la fecha seleccionada del calendario
+ * @param foto_nombre Campo para la escritura del nombre de la foto seleccionada en el FileChooser
+ * @param sel_fecha Boton para desplegar el calendario
+ * @param confirmar_fecha Boton para confirmar la fecha seleccionada en el calendario
+ * @param busqueda_foto Boton para desplegar el JFileChooser de seleccion de fotos
+ * @param confirmar_agregar Boton para confirmar la creacion de un pasajero
+ * @param panel_calendario Panel que contiene el JCalendar
+ * @param panel_boton Panel que contiene el boton de confirmar fecha
+ * @param panel_selecctor Panel que contiene el JFileChooser
+ * @param fuente Objeto que almacena la fuente
+ * @param calendario JCalendar para la seleccion explicita de la fecha
+ * @param selector JFileChooser para la seleccion de la imagen
+ */
 public class PanelAgregar extends JPanel{
 	
 	private JLabel id_nombres, id_apellidos, id_fecha, id_pais, id_foto;

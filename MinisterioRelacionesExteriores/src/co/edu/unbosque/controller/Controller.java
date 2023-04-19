@@ -38,8 +38,41 @@ import co.edu.unbosque.util.exceptions.NumeroIncorrectoException;
 import co.edu.unbosque.util.exceptions.NumeroInvalidoException;
 import co.edu.unbosque.util.exceptions.NumeroNegativoException;
 import co.edu.unbosque.util.exceptions.PaisInexistenteException;
-import co.edu.unbosque.view.Consola;
 import co.edu.unbosque.view.VentanaPrincipal;
+
+/**
+ * Establece la lógica entre la interfaz de usuario y las representaciones
+ * planetadas en el modelo.
+ * 
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param vp                    Objeto de la clase VentanaPrincipal
+ * @param pdao                  Objeto de la clase PasajeroDAO
+ * @param adao                  Objeto de la clase AceptadoDAO
+ * @param rdao                  Objeto de la clase RechazadoDAO
+ * @param paises_vetados        Array con los nombres de los paises vetados
+ * @param paises                ArrayList con los nombres de todos los paises
+ *                              del mundo
+ * @param nombre_temp           Variable temporal para almacenar el nombre de
+ *                              entrada
+ * @param apellidos_temp        Variable temporal para almacenar el apellido de
+ *                              entrada
+ * @param pais_temp             Variable temporal para almancenar el pais de
+ *                              entrada
+ * @param fecha_temp            Variable temporal para almacenar la fecha de
+ *                              entrada
+ * @param nombre_foto_temp      Variable temporal para almancenar el nombre de
+ *                              la foto seleccionada
+ * @param nombre_foto_pasaporte Variable temporal para almancenar el nombre de
+ *                              la foto seleccionada
+ * @param fecha2                Variable que funciona como conversion de la
+ *                              fecha temporal al formato Date
+ * @param eliminar              Variables temporal para almancenar la posicion a
+ *                              eliminar
+ * @param actualizar            Variables temporal para almancenar la posicion a
+ *                              actualizar
+ * @param posicion              Variables temporal para almancenar la posicion a
+ *                              mostrar
+ */
 
 public class Controller implements ActionListener, ComponentListener {
 
@@ -53,7 +86,6 @@ public class Controller implements ActionListener, ComponentListener {
 	private String nombres_temp, apellidos_temp, pais_temp, fecha_temp, nombre_foto_temp, nombre_foto_pasaporte;
 	private Date fecha2;
 	private int eliminar, actualizar, posicion;
-	
 
 	public Controller() {
 		vp = new VentanaPrincipal();
@@ -62,76 +94,84 @@ public class Controller implements ActionListener, ComponentListener {
 		rdao = new RechazadoDAO();
 
 		agregarLectores();
-		
+
 		paises = new ArrayList<>();
 		String contenido = FileHandler.abrirArchivoText("paises.csv");
 		String[] lineas = contenido.split("\n");
-		for(String linea : lineas) {
+		for (String linea : lineas) {
 			String nombre_pais = linea;
 			paises.add(nombre_pais);
 		}
-		
 
 	}
 
+	/**
+	 * Se llama cuando el componente con un ComponentListener es redimensionado.
+	 */
 	@Override
 	public void componentResized(ComponentEvent e) {
-		
+
 		Dimension nuevas_dim = e.getComponent().getSize();
-		
-		//PanelPasaporte
+
+		// PanelPasaporte
 		vp.getPanel_pasaporte().setSize(nuevas_dim);
-		//JPanel pasaporte
-		vp.getPanel_pasaporte().getPasaporte().setSize(nuevas_dim.width-90, nuevas_dim.height-140);
-		//JLabel fondo_pasaporte
+		// JPanel pasaporte
+		vp.getPanel_pasaporte().getPasaporte().setSize(nuevas_dim.width - 90, nuevas_dim.height - 140);
+		// JLabel fondo_pasaporte
 		vp.getPanel_pasaporte().getFondo_pasaporte().setSize(vp.getPanel_pasaporte().getPasaporte().getSize());
-		//Redimensión setIcon de fondo_pasaporte
+		// Redimensión setIcon de fondo_pasaporte
 		ImageIcon imageIcon = null;
 		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File("src/Assets/bg_pasaporte.jpg"));
-		}catch (IOException e2) {}
-		Image dimg = img.getScaledInstance(nuevas_dim.width-90, nuevas_dim.height-140, Image.SCALE_FAST);
+		} catch (IOException e2) {
+		}
+		Image dimg = img.getScaledInstance(nuevas_dim.width - 90, nuevas_dim.height - 140, Image.SCALE_FAST);
 		imageIcon = new ImageIcon(dimg);
-		//Actualizacion del tamaño fondo_pasaporte setIcon
+		// Actualizacion del tamaño fondo_pasaporte setIcon
 		vp.getPanel_pasaporte().getFondo_pasaporte().setIcon(imageIcon);
-		
-		//Componentes 
-		vp.getPanel_pasaporte().getTitulo_es().setLocation((nuevas_dim.width/2)-150, 10);
-		vp.getPanel_pasaporte().getTitulo_en().setLocation((nuevas_dim.width/2)-153, 30);
-		vp.getPanel_pasaporte().getInd_apellido().setLocation((nuevas_dim.width/2)-180, 70);
-		vp.getPanel_pasaporte().getApellidos().setLocation((nuevas_dim.width/2)-180, 85);
-		vp.getPanel_pasaporte().getInd_nombre().setLocation((nuevas_dim.width/2)-180, 110);
-		vp.getPanel_pasaporte().getNombres().setLocation((nuevas_dim.width/2)-180, 125);
-		vp.getPanel_pasaporte().getInd_pais().setLocation((nuevas_dim.width/2)-180, 150);
-		vp.getPanel_pasaporte().getPais().setLocation((nuevas_dim.width/2)-180, 165);
-		vp.getPanel_pasaporte().getInd_fecha().setLocation((nuevas_dim.width/2)-180, 190);
-		vp.getPanel_pasaporte().getFecha().setLocation((nuevas_dim.width/2)-180, 205);
-		vp.getPanel_pasaporte().getInd_edad().setLocation((nuevas_dim.width/2)-180, 230);
-		vp.getPanel_pasaporte().getEdad().setLocation((nuevas_dim.width/2)-180, 245);
-		
-		//JLabel imagen
-		vp.getPanel_pasaporte().getImagen().setSize(vp.getPanel_pasaporte().getApellidos().getLocation().x-30, nuevas_dim.height-250);
-		
-		//Redimension ImageIcon de imagen
+
+		// Componentes
+		vp.getPanel_pasaporte().getTitulo_es().setLocation((nuevas_dim.width / 2) - 150, 10);
+		vp.getPanel_pasaporte().getTitulo_en().setLocation((nuevas_dim.width / 2) - 153, 30);
+		vp.getPanel_pasaporte().getInd_apellido().setLocation((nuevas_dim.width / 2) - 180, 70);
+		vp.getPanel_pasaporte().getApellidos().setLocation((nuevas_dim.width / 2) - 180, 85);
+		vp.getPanel_pasaporte().getInd_nombre().setLocation((nuevas_dim.width / 2) - 180, 110);
+		vp.getPanel_pasaporte().getNombres().setLocation((nuevas_dim.width / 2) - 180, 125);
+		vp.getPanel_pasaporte().getInd_pais().setLocation((nuevas_dim.width / 2) - 180, 150);
+		vp.getPanel_pasaporte().getPais().setLocation((nuevas_dim.width / 2) - 180, 165);
+		vp.getPanel_pasaporte().getInd_fecha().setLocation((nuevas_dim.width / 2) - 180, 190);
+		vp.getPanel_pasaporte().getFecha().setLocation((nuevas_dim.width / 2) - 180, 205);
+		vp.getPanel_pasaporte().getInd_edad().setLocation((nuevas_dim.width / 2) - 180, 230);
+		vp.getPanel_pasaporte().getEdad().setLocation((nuevas_dim.width / 2) - 180, 245);
+
+		// JLabel imagen
+		vp.getPanel_pasaporte().getImagen().setSize(vp.getPanel_pasaporte().getApellidos().getLocation().x - 30,
+				nuevas_dim.height - 250);
+
+		// Redimension ImageIcon de imagen
 		int nueva_alt = vp.getPanel_pasaporte().getImagen().getHeight();
 		int nuevo_anch = vp.getPanel_pasaporte().getImagen().getWidth();
-		
+
 		ImageIcon imageIcon2 = null;
 		BufferedImage img2 = null;
 		try {
-			img2 = ImageIO.read(new File("src/UserImages/"+nombre_foto_pasaporte));
-		}catch (IOException e2) {}
+			img2 = ImageIO.read(new File("src/UserImages/" + nombre_foto_pasaporte));
+		} catch (IOException e2) {
+		}
 		Image dimg2 = img2.getScaledInstance(nuevo_anch, nueva_alt, Image.SCALE_FAST);
 		imageIcon2 = new ImageIcon(dimg2);
-		//Actualizacion del tamaño fondo_pasaporte setIcon
+		// Actualizacion del tamaño fondo_pasaporte setIcon
 		vp.getPanel_pasaporte().getImagen().setIcon(imageIcon2);
-		
-		
+
 	}
 
+	/**
+	 * Se crean los lectores para que todo JButton, JTextField y JList, permitan la
+	 * lectura.
+	 */
 	public void agregarLectores() {
-		
+
 		vp.addComponentListener(this);
 
 		vp.getAgregar_pasajero().addActionListener(this);
@@ -199,6 +239,10 @@ public class Controller implements ActionListener, ComponentListener {
 		vp.getPanel_extranjeros().getBusqueda_e().setActionCommand("Busqueda_e");
 	}
 
+	/**
+	 * Se llama cuando se presiona un JButton previamente inicializado. Establece
+	 * los comandos y la funcionalidad de cada elemento interactivo.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -514,13 +558,13 @@ public class Controller implements ActionListener, ComponentListener {
 						throw new CaracterInvalidoException();
 					}
 					boolean existe = false;
-					for(String pais : paises) {
-						if(pais_temp.equalsIgnoreCase(pais)) {
+					for (String pais : paises) {
+						if (pais_temp.equalsIgnoreCase(pais)) {
 							existe = true;
 							break;
 						}
 					}
-					if(existe == false) {
+					if (existe == false) {
 						throw new PaisInexistenteException();
 					}
 
@@ -537,13 +581,10 @@ public class Controller implements ActionListener, ComponentListener {
 
 				} catch (PaisInexistenteException e4) {
 
-					JOptionPane.showMessageDialog(null,"\nMotivo: "
-							+ e4.getMessage() + "\nVuelva a intentarlo");
+					JOptionPane.showMessageDialog(null, "\nMotivo: " + e4.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
 
 				}
-				
-				
 
 				validacion++;
 
@@ -934,13 +975,13 @@ public class Controller implements ActionListener, ComponentListener {
 						throw new CaracterInvalidoException();
 					}
 					boolean existe = false;
-					for(String pais : paises) {
-						if(pais_temp.equalsIgnoreCase(pais)) {
+					for (String pais : paises) {
+						if (pais_temp.equalsIgnoreCase(pais)) {
 							existe = true;
 							break;
 						}
 					}
-					if(existe == false) {
+					if (existe == false) {
 						throw new PaisInexistenteException();
 					}
 
@@ -957,8 +998,7 @@ public class Controller implements ActionListener, ComponentListener {
 
 				} catch (PaisInexistenteException e4) {
 
-					JOptionPane.showMessageDialog(null,"\nMotivo: "
-							+ e4.getMessage() + "\nVuelva a intentarlo");
+					JOptionPane.showMessageDialog(null, "\nMotivo: " + e4.getMessage() + "\nVuelva a intentarlo");
 					validacion--;
 
 				}
@@ -1169,19 +1209,20 @@ public class Controller implements ActionListener, ComponentListener {
 
 				int meses_totales = (anios * 12) + meses;
 
-				vp.getPanel_pasaporte().getEdad().setText(anios + "/Años o " + meses_totales + "/Meses o " + dias_totales + "/Dias");
-				
+				vp.getPanel_pasaporte().getEdad()
+						.setText(anios + "/Años o " + meses_totales + "/Meses o " + dias_totales + "/Dias");
+
 				ImageIcon imageIcon = null;
 				BufferedImage img = null;
 				try {
 					img = ImageIO.read(new File("src/UserImages/" + pdao.getLista().get(posicion).getNombre_imagen()));
-				}catch (IOException e2) {
+				} catch (IOException e2) {
 				}
 				Image dimg = img.getScaledInstance(150, 200, Image.SCALE_FAST);
 				imageIcon = new ImageIcon(dimg);
-				
+
 				vp.getPanel_pasaporte().getImagen().setIcon(imageIcon);
-				
+
 				nombre_foto_pasaporte = pdao.getLista().get(posicion).getNombre_imagen();
 
 				vp.getPanel_pasaporte().setVisible(true);
@@ -1272,21 +1313,22 @@ public class Controller implements ActionListener, ComponentListener {
 
 				int meses_totales = (anios * 12) + meses;
 
-				vp.getPanel_pasaporte().getEdad().setText(anios + "/Años o " + meses_totales + "/Meses o " + dias_totales + "/Dias");
+				vp.getPanel_pasaporte().getEdad()
+						.setText(anios + "/Años o " + meses_totales + "/Meses o " + dias_totales + "/Dias");
 
 				ImageIcon imageIcon2 = null;
 				BufferedImage img2 = null;
 				try {
 					img2 = ImageIO.read(new File("src/UserImages/" + pdao.getLista().get(posicion).getNombre_imagen()));
-				}catch (IOException e2) {
+				} catch (IOException e2) {
 				}
 				Image dimg2 = img2.getScaledInstance(150, 200, Image.SCALE_FAST);
 				imageIcon2 = new ImageIcon(dimg2);
-				
+
 				vp.getPanel_pasaporte().getImagen().setIcon(imageIcon2);
-				
+
 				nombre_foto_pasaporte = pdao.getLista().get(posicion).getNombre_imagen();
-				
+
 				vp.getPanel_pasaporte().setVisible(true);
 				vp.getPanel_agregar().setVisible(false);
 				vp.getPanel_eliminar().setVisible(false);
@@ -1324,6 +1366,11 @@ public class Controller implements ActionListener, ComponentListener {
 
 	}
 
+	/**
+	 * Metodo para obetener la extension de las fotos a cargar.
+	 * @param archivo Archivo que se selecciona para filtrar si corresponde o no los parametros establecidos
+	 * @return Retorna la extension del archivo.
+	 */
 	private String obtenerExtencion(File archivo) {
 
 		String nombre_a = archivo.getName();

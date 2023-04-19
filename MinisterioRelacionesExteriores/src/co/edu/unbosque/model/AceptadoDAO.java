@@ -6,6 +6,17 @@ import java.util.Date;
 
 import co.edu.unbosque.controller.FileHandler;
 
+
+/**
+ * Al implenetar la interfaz OperacionesDAO, obliga a darle funcionalidad a los
+ * metodos por medio de la palabra clase 'Override'
+ * 
+ * @author Federico Vargas Rozo, Juan Esteban Quintero
+ * @param lista ArrayList de tipo AceptadoDTO que contiene la informacion de
+ *              todos los pasajeros aceptados.
+ *
+ */
+
 public class AceptadoDAO implements OperacionesDAO {
 
 	private ArrayList<AceptadoDTO> lista;
@@ -26,6 +37,13 @@ public class AceptadoDAO implements OperacionesDAO {
 		this.lista = lista;
 	}
 
+	/**
+	 * Permite ingresar todos los pasajeros aceptados a la lista general por medio de la
+	 * lectura del archivo
+	 * 
+	 * @return Retorna la lista con todos los pasajeros aceptados
+	 */
+	
 	public ArrayList<AceptadoDTO> cargarArchivo() {
 		ArrayList<AceptadoDTO> desde_archivo = new ArrayList<AceptadoDTO>();
 		String contenido = FileHandler.abrirArchivoText("aceptados.csv");
@@ -42,6 +60,10 @@ public class AceptadoDAO implements OperacionesDAO {
 		return desde_archivo;
 	}
 
+	/**
+	 * Sobreescribe el archivo de general por toda la informacion de cada pasajero aceptado de la lista general
+	 */
+	
 	public void escribirArchivo() {
 		StringBuilder sb = new StringBuilder();
 		int pos = lista.size();
@@ -87,20 +109,6 @@ public class AceptadoDAO implements OperacionesDAO {
 			return true;
 		} catch (Exception e) {
 			return false;
-		}
-	}
-
-	public String mostrarTodo() {
-		if (lista.isEmpty()) {
-			return "No existen Aceptados";
-		} else {
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < lista.size(); i++) {
-				sb.append("No°" + i + "\n");
-				sb.append(lista.get(i).toString());
-				sb.append("\n");
-			}
-			return sb.toString();
 		}
 	}
 
